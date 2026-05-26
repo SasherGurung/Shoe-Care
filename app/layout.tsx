@@ -3,6 +3,10 @@ import "./globals.css";
 import Navbar from "@/components/layouts/Navbar";
 import Footer from "@/components/layouts/Footer";
 import { cantarell } from "./fonts";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "Shoe Care",
@@ -17,7 +21,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={` ${cantarell.className} h-full antialiased`}
+      className={cn("h-full", "antialiased", cantarell.className, "font-sans", geist.variable)}
       suppressContentEditableWarning
     >
       <body className="min-h-screen flex flex-col">
