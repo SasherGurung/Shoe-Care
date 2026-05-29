@@ -48,7 +48,7 @@ function Navbar() {
       <div className=" bg-white p-2 grid grid-cols-3 items-center ">
         <div className="flex px-5">
           {navLinks.map((items, index) => {
-            const hasChildren = items.children?.length > 0;
+            const hasChildren = (items.children?.length ?? 0) > 0;
 
             return hasChildren ? (
               <HoverCard key={index} openDelay={10} closeDelay={50}>
@@ -67,7 +67,7 @@ function Navbar() {
                   className="flex flex-col bg-black text-white border border-emerald-400 font-bold"
                   align="start"
                 >
-                  {items.children.map((child, i) => (
+                  {items.children?.map((child, i) => (
                     <p
                       key={i}
                       className="cursor-pointer px-4 py-3 hover:bg-amber-400 hover:text-black"
@@ -78,7 +78,7 @@ function Navbar() {
                 </HoverCardContent>
               </HoverCard>
             ) : (
-              <Link key={index} href={items.href}>
+              <Link key={index} href={items.href ?? ""}>
                 <Button
                   variant="link"
                   className="font-bold tracking-wider hover:text-emerald-400 transition cursor-pointer"
@@ -118,7 +118,7 @@ function Navbar() {
                   <input
                     type="text"
                     placeholder="Search"
-                    class="w-full border border-gray-300 rounded-2xl px-3 py-2 outline-none focus:border-emerald-500"
+                    className="w-full border border-gray-300 rounded-2xl px-3 py-2 outline-none focus:border-emerald-500"
                   />
                 </div>
                 <SheetDescription className="text-xs text-center font-bold mt-3">

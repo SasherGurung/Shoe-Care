@@ -1,25 +1,12 @@
 "use client";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 import Image from "next/image";
-import Autoplay from "embla-carousel-autoplay";
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 function HomePage() {
   const router = useRouter();
-
-  const autoplay = React.useMemo(
-    () => Autoplay({ delay: 2500, stopOnInteraction: true }),
-    [],
-  );
-
-  const heroImages = ["/assets/shoe.png"];
 
   const features = [
     {
@@ -99,12 +86,12 @@ function HomePage() {
       desc1: "Proper cleaning improves durability and appearance.",
       desc2:
         "Discover expert techniques to maintain your footwear in premium condition.",
-      link: "/about",
+      link: "/contact",
       buttonText: "Read More",
     },
   ];
 
-  const BadgeStyles = (type) => {
+  const BadgeStyles = (type: string) => {
     switch (type) {
       case "Best-Seller":
         return "bg-emerald-400 text-white";
@@ -121,29 +108,17 @@ function HomePage() {
     <div className="w-full min-h-screen bg-white text-black">
       <section className="relative w-full h-screen overflow-hidden bg-black">
         <div className="absolute inset-0">
-          <Carousel
-            plugins={autoplay ? [autoplay] : []}
-            className="w-full h-full"
-            onMouseEnter={() => autoplay?.stop()}
-            onMouseLeave={() => autoplay?.reset()}
-          >
-            <CarouselContent>
-              {heroImages.map((img, index) => (
-                <CarouselItem key={index} className="w-full h-full">
-                  <div className="relative w-full h-screen">
-                    <Image
-                      src={img}
-                      alt={`Hero sneaker ${index + 1}`}
-                      fill
-                      priority={index === 0}
-                      className="object-fill scale-110"
-                    />
-                    <div className="absolute inset-0 bg-black/20" />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
+          <div className="relative w-full h-screen">
+            <Image
+              src="/assets/shoe.png"
+              alt="Hero sneaker"
+              fill
+              priority
+              className="object-fill"
+            />
+
+            <div className="absolute inset-0 bg-black/20" />
+          </div>
         </div>
 
         <div className="absolute inset-0 " />

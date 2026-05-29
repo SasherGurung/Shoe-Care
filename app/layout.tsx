@@ -22,7 +22,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn("h-full", "antialiased", cantarell.className, "font-sans", geist.variable)}
-      suppressContentEditableWarning
+      suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
         <Navbar />

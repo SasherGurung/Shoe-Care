@@ -121,7 +121,7 @@ function ProductsPage() {
     },
   ];
 
-  const BadgeStyles = (type) => {
+  const BadgeStyles = (type: string): string => {
     switch (type) {
       case "Best-Seller":
         return "bg-emerald-400 text-white";
@@ -146,7 +146,7 @@ function ProductsPage() {
 
   const paginatedProducts = products.slice(startIndex, endIndex);
 
-  const goToPage = (page) => {
+  const goToPage = (page: number): void => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
