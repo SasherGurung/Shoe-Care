@@ -1,4 +1,4 @@
-import { Lavishly_Yours, Bodoni_Moda, Cantarell } from "next/font/google";
+import { Lavishly_Yours, Bodoni_Moda, Cantarell, Domine } from "next/font/google";
 
 export const lavishly = Lavishly_Yours({
   subsets: ["latin"],
@@ -11,6 +11,11 @@ export const bodoni = Bodoni_Moda({
 });
 
 export const cantarell = Cantarell({
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+export const domine = Domine({
   subsets: ["latin"],
   weight: ["400"],
 });
