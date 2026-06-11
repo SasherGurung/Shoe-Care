@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CartPage = () => {
+function CartPage() {
   return (
     <div>CartPage</div>
   )

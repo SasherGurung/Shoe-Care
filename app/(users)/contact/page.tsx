@@ -26,8 +26,8 @@ function ContactPage() {
               <label className="text-sm text-gray-600">Name</label>
               <input
                 type="text"
-                placeholder="Your name"
-                className="w-full mt-1 border border-gray-300 px-4 py-3 rounded-xs focus:outline-none focus:ring-1 focus:ring-emerald-400"
+                placeholder="Name"
+                className="w-full mt-1 border border-gray-300 px-4 py-2 rounded-xs focus:outline-none focus:ring-1 focus:ring-emerald-400"
               />
             </div>
             <div>
@@ -35,7 +35,7 @@ function ContactPage() {
               <input
                 type="email"
                 placeholder="you@example.com"
-                className="w-full mt-1 border border-gray-300 px-4 py-3 rounded-xs focus:outline-none focus:ring-1 focus:ring-emerald-400"
+                className="w-full mt-1 border border-gray-300 px-4 py-2 rounded-xs focus:outline-none focus:ring-1 focus:ring-emerald-400"
               />
             </div>
           </div>
@@ -47,12 +47,14 @@ function ContactPage() {
               className="w-full mt-1 border border-gray-300 px-4 py-3 rounded-xs resize-none focus:outline-none focus:ring-1 focus:ring-emerald-400"
             />
           </div>
-          <button
-            type="submit"
-            className="cursor-pointer flex  bg-emerald-500 text-white px-8 py-3 rounded-sm font-medium hover:bg-emerald-600 active:scale-[0.98] transition-all duration-200"
-          >
-            Send Message
-          </button>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="cursor-pointer bg-emerald-500 text-white px-8 py-3 rounded-sm font-medium hover:bg-emerald-600 active:scale-[0.98] transition-all duration-200"
+            >
+              Send Message
+            </button>
+          </div>
         </form>
       </div>
     </div>

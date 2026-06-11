@@ -44,7 +44,7 @@ function Navbar() {
   ];
 
   return (
-    <header className="w-full top-0 left-0 sticky z-50">
+    <header className="w-full top-0 left-0 sticky z-50 border-b">
       <div className=" bg-white p-2 grid grid-cols-3 items-center ">
         <div className="flex px-5">
           {navLinks.map((items, index) => {
@@ -132,7 +132,7 @@ function Navbar() {
             </SheetContent>
           </Sheet>
           <div className="hover:text-emerald-400 flex gap-1 hover:scale-105 transition-all duration-200 items-center">
-            <IoBagHandleOutline size={18} /> Cart
+            <IoBagHandleOutline size={18} onClick={() => router.push("/cart")} /> Cart
           </div>
         </div>
       </div>

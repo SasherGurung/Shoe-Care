@@ -34,14 +34,14 @@ function HomePage() {
       title: "Premium Shoe Foam Cleaner",
       hoverImage: "/assets/product3.png",
       badge: "Trending",
-      price: "Rs. 900",
+      price: 700,
     },
     {
       image: "/assets/shoe.png",
       category: "Foam",
       hoverImage: "/assets/product2.png",
       title: "Deep Cleaning Kit",
-      price: "Rs. 900",
+      price: 900,
       badge: "Best-Seller",
     },
     {
@@ -49,7 +49,7 @@ function HomePage() {
       category: "Foam",
       title: "Protection Spray",
       hoverImage: "/assets/product1.png",
-      price: "Rs. 900",
+      price: 1500,
       badge: "Trending",
     },
     {
@@ -57,7 +57,7 @@ function HomePage() {
       category: "Foam",
       title: "Sneaker Care Kit",
       hoverImage: "/assets/product3.png",
-      price: "Rs. 900",
+      price: 1000,
       badge: "Best-Seller",
     },
     {
@@ -65,7 +65,7 @@ function HomePage() {
       category: "Foam",
       title: "Protection Spray",
       hoverImage: "/assets/product2.png",
-      price: "Rs. 900",
+      price: 950,
       badge: "Trending",
     },
   ];
@@ -230,7 +230,7 @@ function HomePage() {
                     <p className="text-xs">{product.title}</p>
 
                     <p className="text-xs font-bold text-green-600">
-                      {product.price}
+                      Rs {product.price.toFixed(2)}
                     </p>
                   </div>
                 </div>

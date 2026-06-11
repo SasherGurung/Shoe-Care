@@ -17,7 +17,6 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -134,31 +133,19 @@ function ProductsPage() {
     }
   };
 
-  // PAGINATION LOGIC
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 8;
 
   const totalPages = Math.ceil(products.length / itemsPerPage);
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  const paginatedProducts = products.slice(startIndex, endIndex);
-
-  const goToPage = (page: number): void => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
-
-  const nextPage = () => goToPage(currentPage + 1);
-
-  const prevPage = () => goToPage(currentPage - 1);
+  const paginatedProducts = products.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
 
   return (
     <section className="py-16 px-6 bg-white min-h-screen">
-      {/* HERO */}
       <div className="flex flex-col justify-center h-40 w-full border-white items-center gap-3">
         <h1 className="text-5xl font-bold">Shoe Care</h1>
         <p className="w-150 text-center text-xm line-clamp-6 tracking-wide">
@@ -167,8 +154,7 @@ function ProductsPage() {
           adipisicing elit. Tempora, aliquid ea? Lorem ipsum, dolor sit amet
           consectetur adipisicing elit. Temporibus quisquam provident
           perferendis doloremque, sed consectetur eius neque laboriosam. Quas,
-          corrupti ab. Assumenda corporis error ratione laboriosam placeat
-          veritatis facilis quos.
+          corrupti ab.
         </p>
       </div>
       <div className="flex justify-between p-5">
@@ -186,9 +172,7 @@ function ProductsPage() {
 
           <SheetContent>
             <SheetHeader>
-              <SheetTitle className="text-center text-2xl">
-                Filter
-              </SheetTitle>
+              <SheetTitle className="text-center text-2xl">Filter</SheetTitle>
 
               <hr className="border-gray-300" />
 
@@ -251,7 +235,6 @@ function ProductsPage() {
         </Sheet>
       </div>
 
-      {/* PRODUCTS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 m-5">
         {paginatedProducts.map((product) => (
           <div
@@ -297,7 +280,7 @@ function ProductsPage() {
                 </p>
 
                 <p className="text-sm font-bold text-emerald-600">
-                  Rs {product.price}
+                  Rs {product.price.toFixed(2)}
                 </p>
               </div>
             </div>
@@ -305,31 +288,28 @@ function ProductsPage() {
         ))}
       </div>
 
-      {/* PAGINATION */}
       <Pagination className="mt-10">
         <PaginationContent>
-          {/* PREVIOUS */}
           <PaginationItem>
             <PaginationPrevious
-              onClick={prevPage}
+              onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
               className={
                 currentPage === 1
-                  ? "pointer-events-none opacity-50 cursor-not-allowed"
+                  ? "pointer-events-none opacity-50"
                   : "cursor-pointer"
               }
             />
           </PaginationItem>
 
-          {/* PAGE NUMBERS */}
-          {Array.from({ length: totalPages }).map((_, index) => {
+          {[...Array(totalPages)].map((_, index) => {
             const page = index + 1;
 
             return (
               <PaginationItem key={page}>
                 <PaginationLink
-                  onClick={() => goToPage(page)}
+                  onClick={() => setCurrentPage(page)}
                   isActive={currentPage === page}
-                  className="cursor-pointer bg-gray-50"
+                  className="cursor-pointer"
                 >
                   {page}
                 </PaginationLink>
@@ -337,20 +317,14 @@ function ProductsPage() {
             );
           })}
 
-          {/* ELLIPSIS */}
-          {totalPages > 4 && (
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-          )}
-
-          {/* NEXT */}
           <PaginationItem>
             <PaginationNext
-              onClick={nextPage}
+              onClick={() =>
+                currentPage < totalPages && setCurrentPage(currentPage + 1)
+              }
               className={
                 currentPage === totalPages
-                  ? "pointer-events-none opacity-50 cursor-not-allowed"
+                  ? "pointer-events-none opacity-50"
                   : "cursor-pointer"
               }
             />

@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/layouts/Navbar";
-import Footer from "@/components/layouts/Footer";
 import { cantarell } from "./fonts";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Toaster } from "react-hot-toast";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Shoe Care",
@@ -21,13 +20,20 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", cantarell.className, "font-sans", geist.variable)}
+      className={cn(
+        "h-full",
+        "antialiased",
+        cantarell.className,
+        "font-sans",
+        geist.variable,
+      )}
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <main className="flex-1">
+          <Toaster position="top-center" />
+          {children}
+        </main>
       </body>
     </html>
   );
