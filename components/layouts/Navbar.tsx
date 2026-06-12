@@ -35,10 +35,7 @@ function Navbar() {
         "INSOLES",
       ],
     },
-    {
-      label: "FOOT CARE",
-      children: ["INSOLES", "SOCKS"],
-    },
+    { label: "SHOE CARE", href: "/" },
     { label: "ABOUT", href: "/about" },
     { label: "CONTACT", href: "/contact" },
   ];

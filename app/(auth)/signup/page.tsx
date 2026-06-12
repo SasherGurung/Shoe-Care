@@ -47,7 +47,7 @@ export default function SignupForm({
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: credentials.email,
         password: credentials.password,
       });
@@ -55,6 +55,16 @@ export default function SignupForm({
       if (error) {
         toast.error(error.message);
         return;
+      }
+
+      const user = data.user;
+
+      if (user) {
+        await supabase.from("profiles").insert({
+          id: user.id,
+          email: credentials.email,
+          username: credentials.name,
+        });
       }
 
       toast.success("SignUp Successful");
@@ -66,7 +76,7 @@ export default function SignupForm({
         confirmPassword: "",
       });
 
-      router.push("/login");
+      router.push("/");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong! Please try again later");
@@ -97,10 +107,10 @@ export default function SignupForm({
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
               <Input
                 name="name"
+                required
                 value={credentials.name}
                 type="text"
                 placeholder="Enter your name"
-                required
                 onChange={handleInputChange}
               />
             </Field>
@@ -108,10 +118,10 @@ export default function SignupForm({
               <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input
                 name="email"
+                required
                 value={credentials.email}
                 type="email"
                 placeholder="example@gmail.com"
-                required
                 onChange={handleInputChange}
               />
             </Field>
@@ -121,7 +131,6 @@ export default function SignupForm({
                 name="password"
                 value={credentials.password}
                 type="password"
-                required
                 onChange={handleInputChange}
               />
               <FieldDescription>
@@ -136,7 +145,6 @@ export default function SignupForm({
                 name="confirmPassword"
                 value={credentials.confirmPassword}
                 type="password"
-                required
                 onChange={handleInputChange}
               />
               <FieldDescription>Please confirm your password.</FieldDescription>

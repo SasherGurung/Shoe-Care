@@ -145,20 +145,17 @@ function ProductsPage() {
   );
 
   return (
-    <section className="py-16 px-6 bg-white min-h-screen">
+    <section className="px-6 bg-white min-h-screen">
       <div className="flex flex-col justify-center h-40 w-full border-white items-center gap-3">
         <h1 className="text-5xl font-bold">Shoe Care</h1>
-        <p className="w-150 text-center text-xm line-clamp-6 tracking-wide">
+        <p className="w-150 text-center text-xm line-clamp-4 tracking-wide">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque,
           dolorem consequatur? Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Tempora, aliquid ea? Lorem ipsum, dolor sit amet
-          consectetur adipisicing elit. Temporibus quisquam provident
-          perferendis doloremque, sed consectetur eius neque laboriosam. Quas,
-          corrupti ab.
+          adipisicing elit.
         </p>
       </div>
-      <div className="flex justify-between p-5">
-        <div className="p-5">
+      <div className="flex justify-between p-5 border-b border-t">
+        <div className="p-2">
           <h1>All Products</h1>
         </div>
 
