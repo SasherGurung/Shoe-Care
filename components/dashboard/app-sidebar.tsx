@@ -4,35 +4,24 @@ import * as React from "react"
 
 import { NavDocuments } from "@/components/dashboard/nav-documents"
 import { NavMain } from "@/components/dashboard/nav-main"
-import { NavSecondary } from "@/components/dashboard/nav-secondary"
-import { NavUser } from "@/components/dashboard/nav-user"
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboardIcon, ListIcon, ChartBarIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, Settings2Icon, CircleHelpIcon, SearchIcon, DatabaseIcon, FileChartColumnIcon, FileIcon, CommandIcon } from "lucide-react"
+import { LayoutDashboardIcon } from "lucide-react"
 import { IoCalendarOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
+import { AiOutlineMail } from "react-icons/ai";
+import { LuPlug } from "react-icons/lu";
+import { IoCartOutline } from "react-icons/io5";
 
-
-
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import Link from "next/link"
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
@@ -60,7 +49,7 @@ const data = {
       title: "Ecommerce",
       url: "#",
       icon: (
-        <LayoutDashboardIcon
+        <IoCartOutline
         />
       ),
       items: [
@@ -82,7 +71,7 @@ const data = {
       ]
     },
   ],
-  NavSecondary: [
+  NavDocument: [
     {
       title: "Calendar",
       url: "#",
@@ -97,57 +86,35 @@ const data = {
         <CgProfile />
       ),
     },
-  ],
-  navOthers: [
     {
-      title: "Settings",
+      title: "Email",
       url: "#",
       icon: (
-        <Settings2Icon
-        />
+        <AiOutlineMail />
       ),
+      items: [
+        {
+          items: "Inbox",
+        },
+      ]
     },
     {
-      title: "Get Help",
+      title: "Authentication",
       url: "#",
       icon: (
-        <CircleHelpIcon
-        />
+        <LuPlug />
       ),
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: (
-        <SearchIcon
-        />
-      ),
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: (
-        <DatabaseIcon
-        />
-      ),
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: (
-        <FileChartColumnIcon
-        />
-      ),
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: (
-        <FileIcon
-        />
-      ),
+      items: [
+        {
+          items: "Sign In",
+        },
+        {
+          items: "Sign UP",
+        },
+        {
+          items: "Reset Password",
+        },
+      ]
     },
   ],
 }
@@ -162,22 +129,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <a href="#">
-                <CommandIcon className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+              <Link href="#">
+                <span className="text-xl font-bold">Admin Dashboard</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navOthers} className="mt-auto" />
+        <NavDocuments items={data.NavDocument} />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
     </Sidebar>
   )
 }

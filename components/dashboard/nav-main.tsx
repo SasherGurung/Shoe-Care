@@ -3,6 +3,7 @@
 import {
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -21,6 +22,7 @@ export function NavMain({
 
     // Main-Nav
     <SidebarGroup>
+      <SidebarGroupLabel>Menu</SidebarGroupLabel>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
           {items.map((item) => (
