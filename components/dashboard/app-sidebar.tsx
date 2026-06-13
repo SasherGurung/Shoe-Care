@@ -25,96 +25,96 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
-      icon: (
-        <LayoutDashboardIcon
-        />
-      ),
+      url: "/dashboard/ecommerce",
+      icon: <LayoutDashboardIcon />,
       items: [
         {
-          items: "Ecommerce",
+          title: "Ecommerce",
+          url: "#",
         },
         {
-          items: "Analytics",
+          title: "Analytics",
+          url: "/dashboard/analytics",
         },
         {
-          items: "Logistics",
+          title: "Logistics",
+          url: "/dashboard/logistics",
         },
         {
-          items: "Sales",
+          title: "Sales",
+          url: "/dashboard/sales",
         },
-      ]
+      ],
     },
     {
       title: "Ecommerce",
-      url: "#",
-      icon: (
-        <IoCartOutline
-        />
-      ),
+      url: "/dashboard/ecommerce",
+      icon: <IoCartOutline />,
       items: [
         {
-          items: "Products",
+          title: "Products",
+          url: "/dashboard/products",
         },
         {
-          items: "Add Products",
+          title: "Add Products",
+          url: "/dashboard/add-products",
         },
         {
-          items: "Billing",
+          title: "Billing",
+          url: "/dashboard/billing",
         },
         {
-          items: "Invoice",
+          title: "Invoice",
+          url: "/dashboard/invoice",
         },
         {
-          items: "Trasactions",
+          title: "Transactions",
+          url: "/dashboard/transactions",
         },
-      ]
+      ],
     },
   ],
+
   NavDocument: [
     {
       title: "Calendar",
-      url: "#",
-      icon: (
-        <IoCalendarOutline />
-      ),
+      url: "/dashboard/calendar",
+      icon: <IoCalendarOutline />,
     },
     {
       title: "User Profile",
-      url: "#",
-      icon: (
-        <CgProfile />
-      ),
+      url: "/dashboard/profile",
+      icon: <CgProfile />,
     },
     {
       title: "Email",
-      url: "#",
-      icon: (
-        <AiOutlineMail />
-      ),
+      url: "/dashboard/email",
+      icon: <AiOutlineMail />,
       items: [
         {
-          items: "Inbox",
+          title: "Inbox",
+          url: "/dashboard/email/inbox",
         },
-      ]
+      ],
     },
     {
       title: "Authentication",
-      url: "#",
-      icon: (
-        <LuPlug />
-      ),
+      url: "/dashboard/auth",
+      icon: <LuPlug />,
       items: [
         {
-          items: "Sign In",
+          title: "Sign In",
+          url: "/dashboard/auth/sign-in",
         },
         {
-          items: "Sign UP",
+          title: "Sign Up",
+          url: "/dashboard/auth/sign-up",
         },
         {
-          items: "Reset Password",
+          title: "Reset Password",
+          url: "/dashboard/auth/reset-password",
         },
-      ]
+      ],
     },
   ],
 }
@@ -129,7 +129,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <Link href="#">
+              <Link href="/dashboard/ecommerce">
                 <span className="text-xl font-bold">Admin Dashboard</span>
               </Link>
             </SidebarMenuButton>
