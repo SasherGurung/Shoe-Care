@@ -13,6 +13,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { SiTicktick } from "react-icons/si";
+import useCartStore from "@/src/stores/cartStore";
 
 type Product = {
   id: number;
@@ -41,6 +42,8 @@ export default function ProductsId() {
   const [quantity, setQuantity] = useState(1);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [lastAdded, setLastAdded] = useState<LastAdded | null>(null);
+
+  const addToCart = useCartStore((state) => state.addToCart);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -84,12 +87,21 @@ export default function ProductsId() {
   };
 
   const handleAddToCart = () => {
-    if (!product || outOfStock) return;
+    if (!product) return;
+
+    addToCart({
+      id: String(product.id),
+      title: product.title,
+      price: product.price,
+      image: product.images[0] || product.thumbnail,
+      quantity,
+    });
 
     setLastAdded({
       name: product.title,
       quantity,
     });
+
     setDialogOpen(true);
   };
 
@@ -114,7 +126,6 @@ export default function ProductsId() {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-15 mt-5">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20">
-        {/* Image */}
         <div className="relative h-130 w-full rounded-2xl overflow-hidden shadow-lg cursor-pointer shadow-emerald-100">
           <Image
             src={productImage}
@@ -169,7 +180,7 @@ export default function ProductsId() {
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <button
                 onClick={handleAddToCart}
-                disabled={!outOfStock}
+                disabled={outOfStock}
                 className={`w-full py-2 rounded-lg font-bold text-lg transition-all duration-300 cursor-pointer
                 ${
                   outOfStock
