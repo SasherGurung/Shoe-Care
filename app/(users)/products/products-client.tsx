@@ -24,11 +24,10 @@ import {
 } from "@/components/ui/pagination";
 
 import { IoFilter } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import axios from "axios";
 
-type Products = {
+export type Product = {
   id: number;
   images: string[];
   title: string;
@@ -39,9 +38,11 @@ type Products = {
   availabilityStatus: string;
 };
 
-function ProductsPage() {
-  const [products, setProducts] = useState<Products[]>([]);
+type ProductsPageClientProps = {
+  products: Product[];
+};
 
+function ProductsPageClient({ products }: ProductsPageClientProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 8;
@@ -53,21 +54,6 @@ function ProductsPage() {
     currentPage * itemsPerPage,
   );
 
-  useEffect(() => {
-    const getAllProducts = async () => {
-      try {
-        const response = await axios.get(`https://dummyjson.com/products`);
-        if (!response) {
-          throw new Error ("Something went wrong!")
-        }
-        setProducts(response.data.products);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-     getAllProducts();
-  }, []);
-
   const availabilityStyles = (type: string): string => {
     switch (type) {
       case "In Stock":
@@ -76,8 +62,8 @@ function ProductsPage() {
       case "Low Stock":
         return "bg-amber-400 text-black";
 
-        case "Out of Stock":
-          return "bg-red-500 text-white";
+      case "Out of Stock":
+        return "bg-red-500 text-white";
 
       default:
         return "bg-gray-300 text-black";
@@ -198,7 +184,9 @@ function ProductsPage() {
                       product.availabilityStatus,
                     )}`}
                   >
-                    {product.availabilityStatus === "In Stock" ? "In Stock" : "Low Stock"}
+                    {product.availabilityStatus === "In Stock"
+                      ? "In Stock"
+                      : "Low Stock"}
                   </span>
                 </div>
               </div>
@@ -271,5 +259,5 @@ function ProductsPage() {
     </section>
   );
 }
-export default ProductsPage;
 
+export default ProductsPageClient;
