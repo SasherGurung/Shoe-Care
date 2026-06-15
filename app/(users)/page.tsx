@@ -79,44 +79,46 @@ function HomePage() {
 
   return (
     <div className="w-full min-h-screen bg-white text-black">
-      <section className="relative w-full h-screen overflow-hidden bg-black">
-        <div className="absolute inset-0">
-          <div className="relative w-full h-screen">
-            <Image
-              src="/assets/home2.png"
-              alt="Hero sneaker"
-              fill
-              priority
-              className="object-cover"
-            />
+      <Link href="/products" className="cursor-default">
+        <section className="relative w-full h-screen overflow-hidden bg-black">
+          <div className="absolute inset-0">
+            <div className="relative w-full h-screen">
+              <Image
+                src="/assets/home2.png"
+                alt="Hero sneaker"
+                fill
+                priority
+                className="object-cover"
+              />
 
-            <div className="absolute inset-0 bg-black/20" />
+              <div className="absolute inset-0 bg-black/20" />
+            </div>
           </div>
-        </div>
 
-        <div className="absolute inset-0 " />
+          <div className="absolute inset-0 " />
 
-        <div className="relative z-10 flex items-center justify-center h-full text-center px-6">
-          <div className="space-y-5">
-            <h1 className="text-white font-bold tracking-wide uppercase text-4xl">
-              Premium Sneaker Care Studio
-            </h1>
+          <div className="relative z-10 flex items-center justify-center h-full text-center px-6">
+            <div className="space-y-5">
+              <h1 className="text-white font-bold tracking-wide uppercase text-4xl">
+                Premium Sneaker Care Studio
+              </h1>
 
-            <p className="text-white text-xm">
-              Luxury sneaker care products designed to keep your shoes fresh and
-              protected.
-            </p>
+              <p className="text-white text-xm">
+                Luxury sneaker care products designed to keep your shoes fresh
+                and protected.
+              </p>
 
-            <button
-              onClick={() => router.push("/products")}
-              className="mt-4 px-7 py-3 rounded-2xl font-medium transition-all hover:scale-105
+              <button
+                onClick={() => router.push("/products")}
+                className="mt-4 px-7 py-3 rounded-2xl font-medium transition-all hover:scale-105
         bg-emerald-400 hover:bg-emerald-300 text-white cursor-pointer"
-            >
-              Shop Now
-            </button>
+              >
+                Shop Now
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </Link>
 
       <section className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center py-16 px-6">
         {features.map((item, index) => (
