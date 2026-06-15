@@ -1,21 +1,48 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/src/lib/supabase";
+
+type Products = {
+  id: string;
+  images: string[];
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  thumbnail: string;
+};
 
 function HomePage() {
   const router = useRouter();
+  const [products, setProducts] = useState<Products[]>([]);
+
+  useEffect(() => {
+    const getAllProducts = async () => {
+      const { data, error } = await supabase.from("products").select("*");
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      setProducts(data || []);
+    };
+
+    getAllProducts();
+  }, []);
 
   const features = [
     {
       title: "FREE SHIPPING",
-      description: "Free shipping on orders above $50",
+      description: "Free shipping on orders above Rs. 500",
     },
     {
-      title: "30 DAYS RETURN",
-      description: "Simply return it within 30 days for exchange or refund",
+      title: "45 DAYS RETURN",
+      description: "Simply return it within 45 days for exchange or refund",
     },
     {
       title: "SUPPORT 24/7",
@@ -27,82 +54,28 @@ function HomePage() {
     },
   ];
 
-  const products = [
-    {
-      image: "/assets/shoe1.png",
-      category: "Foam",
-      title: "Premium Shoe Foam Cleaner",
-      hoverImage: "/assets/product3.png",
-      badge: "Trending",
-      price: 700,
-    },
-    {
-      image: "/assets/shoe.png",
-      category: "Foam",
-      hoverImage: "/assets/product2.png",
-      title: "Deep Cleaning Kit",
-      price: 900,
-      badge: "Best-Seller",
-    },
-    {
-      image: "/assets/shoe1.png",
-      category: "Foam",
-      title: "Protection Spray",
-      hoverImage: "/assets/product1.png",
-      price: 1500,
-      badge: "Trending",
-    },
-    {
-      image: "/assets/shoe.png",
-      category: "Foam",
-      title: "Sneaker Care Kit",
-      hoverImage: "/assets/product3.png",
-      price: 1000,
-      badge: "Best-Seller",
-    },
-    {
-      image: "/assets/shoe1.png",
-      category: "Foam",
-      title: "Protection Spray",
-      hoverImage: "/assets/product2.png",
-      price: 950,
-      badge: "Trending",
-    },
-  ];
-
   const guideCards = [
     {
       image: "/assets/shoe.png",
-      title: "Product Guide",
-      desc1: "Shoes care essentials are important for long-lasting wear.",
+      title: "About Our Shoe Care",
+      desc1: "We believe quality footwear deserves long-lasting care.",
       desc2:
-        "Learn how proper maintenance keeps your sneakers fresh, clean, and protected from damage.",
+        "Learn who we are, what we do, and why proper shoe maintenance matters for durability and style.",
       link: "/about",
-      buttonText: "Read More",
+      buttonText: "Learn About Us",
     },
     {
       image: "/assets/shoe1.png",
-      title: "Care Tips",
-      desc1: "Proper cleaning improves durability and appearance.",
+      title: "Contact & Support",
+      desc1: "Need help with your shoe care products?",
       desc2:
-        "Discover expert techniques to maintain your footwear in premium condition.",
+        "Reach out to our support team for guidance, product questions, or care recommendations.",
       link: "/contact",
-      buttonText: "Read More",
+      buttonText: "Contact Us",
     },
   ];
 
-  const BadgeStyles = (type: string) => {
-    switch (type) {
-      case "Best-Seller":
-        return "bg-emerald-400 text-white";
-
-      case "Trending":
-        return "bg-amber-400 text-black";
-
-      default:
-        return "bg-gray-300 text-black";
-    }
-  };
+  const limitedProduct = products.slice(0, 6);
 
   return (
     <div className="w-full min-h-screen bg-white text-black">
@@ -110,11 +83,11 @@ function HomePage() {
         <div className="absolute inset-0">
           <div className="relative w-full h-screen">
             <Image
-              src="/assets/shoe.png"
+              src="/assets/home2.png"
               alt="Hero sneaker"
               fill
               priority
-              className="object-fill"
+              className="object-cover"
             />
 
             <div className="absolute inset-0 bg-black/20" />
@@ -125,9 +98,7 @@ function HomePage() {
 
         <div className="relative z-10 flex items-center justify-center h-full text-center px-6">
           <div className="space-y-5">
-            <h1
-              className={`text-white font-bold tracking-wide uppercase text-4xl`}
-            >
+            <h1 className="text-white font-bold tracking-wide uppercase text-4xl">
               Premium Sneaker Care Studio
             </h1>
 
@@ -184,57 +155,45 @@ function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 gap-6">
-            {products.map((product, index) => (
-              <div
-                key={index}
-                className="group cursor-pointer bg-white rounded-md overflow-hidden transition-all duration-200 shadow w-full border border-gray-100"
-              >
-                <div className="relative w-full h-80 overflow-hidden">
-                  <Image
-                    src={product.image}
-                    alt="Product"
-                    fill
-                    className="object-cover transition-opacity duration-500 group-hover:opacity-0"
-                  />
+            {limitedProduct.map((product) => (
+              <Link href={`/products/${product.id}`} key={product.id}>
+                <div className="group cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 border border-gray-100 hover:shadow-xl">
+                  <div className="relative w-full h-80 overflow-hidden">
+                    <Image
+                      src={product.images[0] || product.thumbnail}
+                      alt={product.title}
+                      fill
+                      priority
+                      className="object-cover transition-opacity duration-500 group-hover:opacity-0"
+                    />
 
-                  <Image
-                    src={product.hoverImage || product.image}
-                    alt="Product hover"
-                    fill
-                    className="object-cover hover:scale-105 absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                  />
-
-                  <div className="absolute top-3 left-3 flex gap-2">
-                    <span
-                      className={`text-[10px] sm:text-xs font-medium px-3 py-1 rounded-xs ${BadgeStyles(
-                        product.badge,
-                      )}`}
-                    >
-                      {product.badge === "Best-Seller"
-                        ? "Best Seller"
-                        : product.badge === "Trending"
-                          ? "Low Stock"
-                          : ""}
-                    </span>
+                    <Image
+                      src={product.thumbnail}
+                      alt={product.title}
+                      fill
+                      className="object-cover absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    />
                   </div>
-                </div>
 
-                <div className="p-4 sm:p-5">
-                  <div className="flex justify-between">
-                    <h2 className="text-xm text-gray-400 mb-1">
+                  <div className="p-5">
+                    <h2 className="text-sm text-gray-400 mb-1">
                       {product.category}
                     </h2>
-                  </div>
 
-                  <div className="flex flex-col items-start gap-1 flex-wrap">
-                    <p className="text-xs">{product.title}</p>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium">{product.title}</p>
 
-                    <p className="text-xs font-bold text-green-600">
-                      Rs {product.price.toFixed(2)}
-                    </p>
+                      <p className="text-xs text-gray-500 line-clamp-2">
+                        {product.description}
+                      </p>
+
+                      <p className="text-sm font-bold text-emerald-600">
+                        Rs {product.price.toFixed(2)}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -276,7 +235,7 @@ function HomePage() {
 
                 <Link
                   href={item.link}
-                  className="mt-4 inline-block bg-emerald-400 text-black px-5 py-2 rounded-md font-semibold hover:bg-emerald-300 transition"
+                  className="mt-4 inline-block bg-emerald-400 text-white px-5 py-2 rounded-md font-semibold hover:bg-emerald-300 transition"
                 >
                   {item.buttonText}
                 </Link>

@@ -13,7 +13,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-
+import { cantarell } from "@/app/fonts";
 import {
   Pagination,
   PaginationContent,
@@ -26,17 +26,17 @@ import {
 import { IoFilter } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import axios from "axios";
+import { supabase } from "@/src/lib/supabase";
 
 type Products = {
-  id: number;
+  id: string;
   images: string[];
   title: string;
   description: string;
   category: string;
   price: number;
   thumbnail: string;
-  availabilityStatus: string;
+  stock: number;
 };
 
 function ProductsPage() {
@@ -46,7 +46,7 @@ function ProductsPage() {
 
   const itemsPerPage = 8;
 
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(products.length / itemsPerPage));
 
   const paginatedProducts = products.slice(
     (currentPage - 1) * itemsPerPage,
@@ -55,18 +55,31 @@ function ProductsPage() {
 
   useEffect(() => {
     const getAllProducts = async () => {
-      try {
-        const response = await axios.get(`https://dummyjson.com/products`);
-        if (!response) {
-          throw new Error ("Something went wrong!")
-        }
-        setProducts(response.data.products);
-      } catch (error) {
+      const { data, error } = await supabase.from("products").select("*");
+
+      if (error) {
         console.log(error);
+        return;
       }
+
+      setProducts(data || []);
     };
-     getAllProducts();
+
+    getAllProducts();
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [currentPage]);
+
+  const getStatus = (stock: number) => {
+    if (stock === 0) return "Out of Stock";
+    if (stock <= 5) return "Low Stock";
+    return "In Stock";
+  };
 
   const availabilityStyles = (type: string): string => {
     switch (type) {
@@ -76,8 +89,8 @@ function ProductsPage() {
       case "Low Stock":
         return "bg-amber-400 text-black";
 
-        case "Out of Stock":
-          return "bg-red-500 text-white";
+      case "Out of Stock":
+        return "bg-red-500 text-white";
 
       default:
         return "bg-gray-300 text-black";
@@ -86,14 +99,21 @@ function ProductsPage() {
 
   return (
     <section className="px-6 bg-white min-h-screen">
-      <div className="flex flex-col justify-center h-40 w-full border-white items-center gap-3">
-        <h1 className="text-5xl font-bold">Shoe Care</h1>
-        <p className="w-150 text-center text-xm line-clamp-4 tracking-wide">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque,
-          dolorem consequatur? Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit.
-        </p>
-      </div>
+      <div className="flex flex-col justify-center h-50 w-full items-center gap-3">
+  <h1
+    className={`text-4xl font-light tracking-widest text-gray-900 ${cantarell.className}`}
+  >
+    OUR PRODUCTS
+  </h1>
+
+  <div className="w-20 h-px bg-gray-300" />
+
+  <p className="max-w-xl text-center text-sm text-gray-500 tracking-wide leading-relaxed">
+    Elevate your footwear care ritual with carefully curated essentials
+    designed to preserve craftsmanship, enhance durability, and maintain
+    timeless elegance in every step.
+  </p>
+</div>
       <div className="flex justify-between p-5 border-b border-t">
         <div className="p-2">
           <h1>All Products</h1>
@@ -195,10 +215,10 @@ function ProductsPage() {
                 <div className="absolute top-3 left-3">
                   <span
                     className={`text-xs font-medium px-3 py-1 rounded-md ${availabilityStyles(
-                      product.availabilityStatus,
+                      getStatus(product.stock),
                     )}`}
                   >
-                    {product.availabilityStatus === "In Stock" ? "In Stock" : "Low Stock"}
+                    {getStatus(product.stock)}
                   </span>
                 </div>
               </div>
@@ -272,4 +292,3 @@ function ProductsPage() {
   );
 }
 export default ProductsPage;
-

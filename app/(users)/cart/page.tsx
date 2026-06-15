@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { MdRemoveShoppingCart } from "react-icons/md";
+import { IoIosArrowForward } from "react-icons/io";
+import Link from "next/link";
 
 export default function Cart() {
   const router = useRouter();
@@ -25,12 +28,24 @@ export default function Cart() {
   return (
     <section className="flex flex-col lg:flex-row justify-between py-20 px-8 gap-10 max-w-7xl mx-auto">
       <div className="w-full lg:w-2/3">
-        <p className="text-5xl font-bold mb-2">YOUR CART</p>
+        <div className="flex items-center gap-1 text-gray-500">
+          <Link href="/" className="hover:text-emerald-600 transition">
+            Home
+          </Link>
+
+          <IoIosArrowForward className="text-gray-400 w-4 h-4" />
+
+          <strong className="text-gray-800">Cart</strong>
+        </div>
+        <p className="text-5xl text-center font-bold mb-2">YOUR CART</p>
 
         {cart.length === 0 ? (
-          <p className="text-3xl font-bold text-center mt-10">
-            Your cart is empty.
-          </p>
+          <div className="flex flex-col items-center justify-center mt-20 text-center space-y-4">
+            <MdRemoveShoppingCart className="text-emerald-500 w-16 h-16" />
+            <p className="text-3xl font-bold text-gray-800">
+              Your cart is empty
+            </p>
+          </div>
         ) : (
           cart.map((item) => (
             <div

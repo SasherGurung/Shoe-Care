@@ -51,7 +51,7 @@ const AboutPage = () => {
       </div>
 
       <section className="py-6">
-        <div className="grid grid-cols-2 items-center h-[700px]">
+        <div className="grid grid-cols-2 items-center h-175">
           <div className="relative w-full h-full rounded-xs overflow-hidden">
             <Image
               src="/assets/about.png"
@@ -77,7 +77,7 @@ const AboutPage = () => {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-2 items-center h-[700px]">
+        <div className="grid grid-cols-2 items-center h-175">
           <div className="flex justify-center text-center flex-col">
             <h1 className="text-5xl tracking-tight">
               Amsterdam Super Trunk Show
@@ -94,7 +94,7 @@ const AboutPage = () => {
           </div>
           <div className="relative w-full h-full rounded-xs overflow-hidden">
             <Image
-              src="/assets/about.png"
+              src="/assets/about1.png"
               alt="About"
               fill
               className="object-cover"
@@ -106,7 +106,7 @@ const AboutPage = () => {
       <section className="py-10">
         <div className="flex flex-col justify-center items-center text-center">
           <h1 className="text-5xl">Sustainability</h1>
-          <p className="text-gray-700 text-sm m-8 line-clamp-6 w-[900px]">
+          <p className="text-gray-700 text-sm m-8 line-clamp-6 w-225">
             Here at The Shoe Care Shop, we try to operate our business while
             keeping our carbon footprint as low as possible. We do this by
             selecting and producing products that have a low impact on the

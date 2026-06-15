@@ -11,18 +11,18 @@ import {
 import { CheckCircle } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { supabase } from "@/src/lib/supabase";
 import { SiTicktick } from "react-icons/si";
 import useCartStore from "@/src/stores/cartStore";
 
 type Product = {
-  id: number;
+  id: string;
   title: string;
   brand: string;
   images: string[];
   thumbnail: string;
   description: string;
-  availabilityStatus: string;
+  stock: number;
   price: number;
   sku: string;
 };
@@ -48,22 +48,27 @@ export default function ProductsId() {
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
-      try {
-        const response = await axios.get(
-          `https://dummyjson.com/products/${id}`,
-        );
-        setProduct(response.data);
-      } catch (error) {
+
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) {
         console.log(error);
         setProduct(null);
-      } finally {
-        setLoading(false);
+      } else {
+        setProduct(data);
       }
+
+      setLoading(false);
     };
+
     fetchProduct();
   }, [id]);
 
-  const outOfStock = product?.availabilityStatus === "Out of Stock";
+  const outOfStock = product?.stock === 0;
 
   const increase = () => {
     if (quantity < 15) setQuantity(quantity + 1);
@@ -71,6 +76,12 @@ export default function ProductsId() {
 
   const decrease = () => {
     if (quantity > 1) setQuantity(quantity - 1);
+  };
+
+  const getStatus = (stock: number) => {
+    if (stock === 0) return "Out of Stock";
+    if (stock <= 5) return "Low Stock";
+    return "In Stock";
   };
 
   const getTagStatus = (status: string) => {
@@ -156,10 +167,8 @@ export default function ProductsId() {
             <strong className="text-black">SKU:</strong> {product.sku}
           </p>
 
-          <p
-            className={`text-base ${getTagStatus(product.availabilityStatus)}`}
-          >
-            <strong>{product.availabilityStatus}</strong>
+          <p className={`text-base ${getTagStatus(getStatus(product.stock))}`}>
+            <strong>{getStatus(product.stock)}</strong>
           </p>
 
           <div className="flex justify-center items-center gap-4 mt-4">

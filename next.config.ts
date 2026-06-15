@@ -1,12 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   experimental: {
     globalNotFound: true,
   },
   images: {
-    domains: ["cdn.dummyjson.com"],
+    domains: [
+      "cdn.dummyjson.com",
+      "www.theshoecareshop.com",
+      "theshoecareshop.com",
+      "images.unsplash.com",
+    ],
   },
 };
 
