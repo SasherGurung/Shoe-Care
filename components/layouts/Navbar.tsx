@@ -2,7 +2,7 @@
 
 import { IoMdSearch } from "react-icons/io";
 import { IoPersonOutline, IoBagHandleOutline } from "react-icons/io5";
-import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
 import { Button } from "@/components/ui/button";
 import { lavishly } from "@/app/fonts";
 import {
@@ -21,6 +21,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import useCartStore from "@/src/stores/cartStore";
 
 function Navbar() {
   const router = useRouter();
@@ -40,6 +41,10 @@ function Navbar() {
     { label: "CONTACT", href: "/contact" },
   ];
 
+  const cart = useCartStore((state) => state.cart);
+
+  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
   return (
     <header className="w-full top-0 left-0 sticky z-50 border-b">
       <div className=" bg-white p-2 grid grid-cols-3 items-center ">
@@ -55,8 +60,7 @@ function Navbar() {
                     className="group font-bold tracking-wider hover:text-emerald-400 text-xm transition cursor-pointer"
                   >
                     {items.label}
-                    <IoIosArrowUp className="block group-hover:hidden" />
-                    <IoIosArrowDown className="hidden group-hover:block" />
+                    <IoIosArrowUp className="transition-transform duration-300 group-hover:rotate-180" />
                   </Button>
                 </HoverCardTrigger>
 
@@ -121,15 +125,20 @@ function Navbar() {
                 <SheetDescription className="text-xs text-center font-bold mt-3">
                   Need some inspirations?
                 </SheetDescription>
-
-                <div>
-                  
-                </div>
               </SheetHeader>
             </SheetContent>
           </Sheet>
-          <div className="hover:text-emerald-400 flex gap-1 hover:scale-105 transition-all duration-200 items-center">
-            <IoBagHandleOutline size={18} onClick={() => router.push("/cart")} /> Cart
+          <div
+            className="hover:text-emerald-400 flex gap-1 hover:scale-105 transition-all duration-200 items-center relative cursor-pointer"
+            onClick={() => router.push("/cart")}
+          >
+            <IoBagHandleOutline size={18} />
+            Cart
+            {totalQuantity > 0 && (
+              <span className="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {totalQuantity}
+              </span>
+            )}
           </div>
         </div>
       </div>

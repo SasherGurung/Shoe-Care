@@ -22,17 +22,31 @@ const useCartStore = create<CartStore>()(
     (set) => ({
       cart: [],
 
-      addToCart: (item) =>
-        set((state) => ({
-          cart: [...state.cart, item],
-        })),
+      addToCart: (product) =>
+        set((state) => {
+          const existingItem = state.cart.find(
+            (item) => item.id === product.id,
+          );
+
+          if (existingItem) {
+            return {
+              cart: state.cart.map((item) =>
+                item.id === product.id
+                  ? { ...item, quantity: item.quantity + product.quantity }
+                  : item,
+              ),
+            };
+          }
+
+          return {
+            cart: [...state.cart, product],
+          };
+        }),
 
       updateQuantity: (id, quantity) =>
         set((state) => ({
           cart: state.cart.map((item) =>
-            item.id === id
-              ? { ...item, quantity }
-              : item
+            item.id === id ? { ...item, quantity } : item,
           ),
         })),
 
@@ -48,8 +62,8 @@ const useCartStore = create<CartStore>()(
     }),
     {
       name: "cart-items",
-    }
-  )
+    },
+  ),
 );
 
 export default useCartStore;

@@ -4,7 +4,8 @@ import Image from "next/image";
 import useCartStore from "@/src/stores/cartStore";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 export default function Cart() {
   const router = useRouter();
@@ -22,9 +23,9 @@ export default function Cart() {
   const shipping = cart.length > 0 ? 150 : 0;
 
   return (
-    <section className="flex flex-col lg:flex-row justify-between py-20 px-8 gap-10 mt-10 max-w-7xl mx-auto">
+    <section className="flex flex-col lg:flex-row justify-between py-20 px-8 gap-10 max-w-7xl mx-auto">
       <div className="w-full lg:w-2/3">
-        <p className="text-5xl font-bold mb-2">YOUR BAG</p>
+        <p className="text-5xl font-bold mb-2">YOUR CART</p>
 
         {cart.length === 0 ? (
           <p className="text-3xl font-bold text-center mt-10">
@@ -56,7 +57,7 @@ export default function Cart() {
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
                       disabled={item.quantity <= 1}
-                      className="px-4 py-2 bg-gray-200"
+                      className="px-4 py-2 bg-gray-200 cursor-pointer"
                     >
                       -
                     </button>
@@ -65,7 +66,7 @@ export default function Cart() {
 
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="px-4 py-2 bg-gray-200"
+                      className="px-4 py-2 bg-gray-200 cursor-pointer"
                     >
                       +
                     </button>
@@ -74,7 +75,7 @@ export default function Cart() {
 
                 <div className="m-5">
                   <button onClick={() => removeFromCart(item.id)}>
-                    <RiDeleteBin6Line width={25} height={25} />
+                    <RiDeleteBin5Line className="h-6 w-5 cursor-pointer text-red-500" />
                   </button>
                 </div>
               </div>
@@ -83,7 +84,7 @@ export default function Cart() {
         )}
       </div>
 
-      <div className="w-full lg:w-1/3">
+      <div className="w-full lg:w-1/2 border p-5 h-2/6 rounded-md space-y-2 sticky top-20">
         <p className="text-4xl font-bold mb-4">ORDER SUMMARY</p>
 
         <div className="flex justify-between">
@@ -93,14 +94,24 @@ export default function Cart() {
 
         {cart.length > 0 && (
           <div className="flex justify-between">
-            <p>Shipping</p>
-            <p>Rs. {shipping.toLocaleString("en-IN")}</p>
+            <p>Shipping Fee</p>
+            <p>Rs. {shipping.toFixed(2)}</p>
           </div>
         )}
 
         <div className="flex justify-between font-bold mt-4">
           <p>Total</p>
           <p>Rs. {(subtotal + shipping).toLocaleString("en-IN")}</p>
+        </div>
+
+        <div className="flex flex-col items-center gap-2">
+          <p className="text-lg font-black text-center">Promo Code</p>
+
+          <input
+            type="text"
+            placeholder="Enter promo code"
+            className="w-full max-w-sm px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring- focus:ring-emerald-500 focus:border-emerald-500"
+          />
         </div>
 
         <button
@@ -111,12 +122,16 @@ export default function Cart() {
             }
             router.push("/checkout");
           }}
-          className="w-full mt-6 bg-black text-white py-4 rounded"
+          className="w-full mt-6 bg-black text-white py-4 rounded-lg cursor-pointer hover:scale-[1.01] transition-all duration-100 flex items-center gap-2 justify-center"
         >
-          Checkout
+          Go to Checkout{" "}
+          <FaArrowRightLong className="w-4 h-4 relative top-0.5" />
         </button>
 
-        <button onClick={clearCart} className="w-full mt-3 border py-3">
+        <button
+          onClick={clearCart}
+          className="w-full mt-3 border py-3 bg-gray-50 rounded-lg cursor-pointer hover:scale-[1.01] transition-all duration-100 hover:bg-gray-100"
+        >
           Clear Cart
         </button>
       </div>
