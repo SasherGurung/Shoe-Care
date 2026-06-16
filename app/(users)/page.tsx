@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/src/lib/supabase";
+import { lavishly } from "../fonts";
 
 type Products = {
   id: string;
@@ -99,13 +100,13 @@ function HomePage() {
 
           <div className="relative z-10 flex items-center justify-center h-full text-center px-6">
             <div className="space-y-5">
-              <h1 className="text-white font-bold tracking-wide uppercase text-4xl">
+              <h1 className={`text-white font-bold tracking-wide text-6xl ${lavishly.className}`}>
                 Premium Sneaker Care Studio
               </h1>
 
-              <p className="text-white text-xm">
+              <p className="text-white text-xm line-clamp-3 w-2xl">
                 Luxury sneaker care products designed to keep your shoes fresh
-                and protected.
+                and protected. Not only do we sell these products, but we also use them ourselves every day.
               </p>
 
               <button

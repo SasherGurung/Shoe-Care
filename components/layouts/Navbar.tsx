@@ -2,14 +2,8 @@
 
 import { IoMdSearch } from "react-icons/io";
 import { IoPersonOutline, IoBagHandleOutline } from "react-icons/io5";
-import { IoIosArrowUp } from "react-icons/io";
 import { Button } from "@/components/ui/button";
 import { lavishly } from "@/app/fonts";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -63,15 +57,6 @@ function Navbar() {
     product.title.toLowerCase().includes(searchItem.toLowerCase()),
   );
   const navLinks = [
-    {
-      label: "SHOP ALL",
-      children: [
-        "SNEAKER CARE",
-        "LEATHER CARE",
-        "BUNDLE, KITS & PACKS",
-        "INSOLES",
-      ],
-    },
     { label: "SHOE CARE", href: "/" },
     { label: "ABOUT", href: "/about" },
     { label: "CONTACT", href: "/contact" },
@@ -85,46 +70,16 @@ function Navbar() {
     <header className="w-full top-0 left-0 sticky z-50 border-b">
       <div className=" bg-white p-2 grid grid-cols-3 items-center ">
         <div className="flex px-5">
-          {navLinks.map((items, index) => {
-            const hasChildren = (items.children?.length ?? 0) > 0;
-
-            return hasChildren ? (
-              <HoverCard key={index} openDelay={10} closeDelay={50}>
-                <HoverCardTrigger asChild>
-                  <Button
-                    variant="link"
-                    className="group font-bold tracking-wider hover:text-emerald-400 text-xm transition cursor-pointer"
-                  >
-                    {items.label}
-                    <IoIosArrowUp className="transition-transform duration-300 group-hover:rotate-180" />
-                  </Button>
-                </HoverCardTrigger>
-
-                <HoverCardContent
-                  className="flex flex-col bg-black text-white border border-emerald-400 font-bold"
-                  align="start"
-                >
-                  {items.children?.map((child, i) => (
-                    <p
-                      key={i}
-                      className="cursor-pointer px-4 py-3 hover:bg-amber-400 hover:text-black"
-                    >
-                      {child}
-                    </p>
-                  ))}
-                </HoverCardContent>
-              </HoverCard>
-            ) : (
-              <Link key={index} href={items.href ?? ""}>
-                <Button
-                  variant="link"
-                  className="font-bold tracking-wider hover:text-emerald-400 transition cursor-pointer"
-                >
-                  {items.label}
-                </Button>
-              </Link>
-            );
-          })}
+          {navLinks.map((item, index) => (
+            <Link key={index} href={item.href}>
+              <Button
+                variant="link"
+                className="font-bold tracking-wider hover:text-emerald-400 transition cursor-pointer"
+              >
+                {item.label}
+              </Button>
+            </Link>
+          ))}
         </div>
 
         <div className="flex justify-center">
@@ -184,7 +139,7 @@ function Navbar() {
                           {product.category}
                         </p>
                         <p className="font-semibold">{product.title}</p>
-                        
+
                         <p className="text-sm text-gray-500 line-clamp-2">
                           {product.description}
                         </p>
