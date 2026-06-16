@@ -41,14 +41,36 @@ type Products = {
 
 function ProductsPage() {
   const [products, setProducts] = useState<Products[]>([]);
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [appliedCategory, setAppliedCategory] = useState("");
+  const [sortPrice, setSortPrice] = useState("");
+  const [appliedSortPrice, setAppliedSortPrice] = useState("");
 
   const itemsPerPage = 8;
 
-  const totalPages = Math.max(1, Math.ceil(products.length / itemsPerPage));
+  const filteredProducts = [...products]
+    .filter((product) =>
+      appliedCategory ? product.category === appliedCategory : true,
+    )
+    .sort((a, b) => {
+      if (appliedSortPrice === "low-high") {
+        return a.price - b.price;
+      }
 
-  const paginatedProducts = products.slice(
+      if (appliedSortPrice === "high-low") {
+        return b.price - a.price;
+      }
+
+      return 0;
+    });
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredProducts.length / itemsPerPage),
+  );
+
+  const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
@@ -141,20 +163,28 @@ function ProductsPage() {
             <div className="mt-6 space-y-6">
               <div>
                 <h3 className="font-semibold mb-3 text-center text-lg">
-                  Treatment Type
+                  Treatment Category
                 </h3>
 
                 <div className="space-y-2 px-5">
                   {[
-                    "Protect",
-                    "Dye leather",
-                    "Shine",
-                    "Clean",
-                    "Condition",
+                    "Shoe Wax",
+                    "Shoe Kit",
+                    "Shoe Brush",
+                    "Shoe Care",
+                    "Shoe Accessory",
+                    "Polish Cloth",
+                    "Shoe Protection",
+                    "Shoe Cleanser",
+                    "Shoe Cream",
                   ].map((t) => (
                     <label key={t} className="flex items-center gap-2 text-sm">
                       <input
-                        type="checkbox"
+                        type="radio"
+                        name="category"
+                        value={t}
+                        checked={selectedCategory === t}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
                         className="accent-emerald-400 cursor-pointer"
                       />
                       {t}
@@ -165,19 +195,59 @@ function ProductsPage() {
 
               <div>
                 <h3 className="font-semibold mb-3 text-center text-lg">
-                  Price Range
+                  Sort By Price
                 </h3>
 
-                <div className="flex gap-2">
-                  <Input placeholder="Min" />
-                  <Input placeholder="Max" />
+                <div className="space-y-3 px-5">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="price"
+                      value=""
+                      checked={sortPrice === ""}
+                      onChange={() => setSortPrice("")}
+                      className="accent-emerald-400"
+                    />
+                    Default
+                  </label>
+
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="price"
+                      value="low-high"
+                      checked={sortPrice === "low-high"}
+                      onChange={() => setSortPrice("low-high")}
+                      className="accent-emerald-400"
+                    />
+                    Price: Low to High
+                  </label>
+
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="price"
+                      value="high-low"
+                      checked={sortPrice === "high-low"}
+                      onChange={() => setSortPrice("high-low")}
+                      className="accent-emerald-400"
+                    />
+                    Price: High to Low
+                  </label>
                 </div>
               </div>
             </div>
 
             <SheetFooter>
               <div className="flex justify-center gap-3 mt-8">
-                <Button className="bg-emerald-500 hover:bg-emerald-600 w-40">
+                <Button
+                  onClick={() => {
+                    setAppliedCategory(selectedCategory);
+                    setAppliedSortPrice(sortPrice);
+                    setCurrentPage(1);
+                  }}
+                  className="bg-emerald-500 hover:bg-emerald-600 w-40"
+                >
                   Apply
                 </Button>
 
