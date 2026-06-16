@@ -190,7 +190,7 @@ function HomePage() {
                       </p>
 
                       <p className="text-sm font-bold text-emerald-600">
-                        Rs {product.price.toFixed(2)}
+                        Rs {product.price.toLocaleString("en-IN")}
                       </p>
                     </div>
                   </div>

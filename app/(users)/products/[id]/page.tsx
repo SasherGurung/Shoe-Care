@@ -212,21 +212,20 @@ export default function ProductsId() {
                     You have successfully added{" "}
                     <strong>{lastAdded?.name}</strong>
                     <br />
-                    Quantity: <strong>{lastAdded?.quantity}</strong> |
-                    Size:{" "}
+                    Quantity: <strong>{lastAdded?.quantity}</strong>
                   </DialogDescription>
                 </DialogHeader>
 
                 <div className="mt-4 grid grid-cols-2 gap-3">
                   <button
-                    className="px-6 py-3 bg-black text-white rounded-lg font-semibold hover:bg-gray-800 transition"
+                    className="px-6 py-3 bg-black text-white rounded-lg font-semibold transition cursor-pointer hover:bg-gray-700"
                     onClick={() => router.push("/cart")}
                   >
                     View Cart
                   </button>
 
                   <button
-                    className="px-6 py-2 border border-gray-300 rounded-lg font-semibold hover:bg-gray-100 transition"
+                    className="px-6 py-2 border border-gray-300 rounded-lg font-semibold hover:bg-gray-100 transition cursor-pointer"
                     onClick={() => router.push("/products")}
                   >
                     Continue

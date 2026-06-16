@@ -10,24 +10,24 @@ function Footer() {
       links: [
         { name: "Contact", href: "/contact" },
         { name: "About Us", href: "/about" },
-        { name: "News", href: "/news" },
-        { name: "Cleaning Service", href: "/cleaning-service" },
+        { name: "News", href: "/" },
+        { name: "Cleaning Service", href: "/" },
       ],
     },
     {
       title: "CUSTOMER SERVICE",
       links: [
-        { name: "Help Center", href: "/help-center" },
-        { name: "Privacy Policy", href: "/privacy-policy" },
-        { name: "Terms & Conditions", href: "/terms" },
-        { name: "Shipping", href: "/shipping" },
+        { name: "Help Center", href: "/" },
+        { name: "Privacy Policy", href: "/" },
+        { name: "Terms & Conditions", href: "/" },
+        { name: "Shipping", href: "/" },
       ],
     },
     {
       title: "MY ACCOUNT",
       links: [
-        { name: "Login", href: "/login" },
-        { name: "Register", href: "/register" },
+        { name: "Login", href: "/" },
+        { name: "Register", href: "/" },
       ],
     },
   ];

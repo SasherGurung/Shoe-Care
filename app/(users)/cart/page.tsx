@@ -29,7 +29,7 @@ export default function Cart() {
     <section className="flex flex-col lg:flex-row justify-between py-20 px-8 gap-10 max-w-7xl mx-auto">
       <div className="w-full lg:w-2/3">
         <div className="flex items-center gap-1 text-gray-500">
-          <Link href="/" className="hover:text-emerald-600 transition">
+          <Link href="/" className="transition hover:text-black">
             Home
           </Link>
 
@@ -65,7 +65,7 @@ export default function Cart() {
                   <p className="text-xl font-bold">{item.title}</p>
 
                   <p className="mb-4">
-                    Price: Rs. {item.price.toLocaleString("en-IN")}
+                    Rs. {item.price.toLocaleString("en-IN")}
                   </p>
 
                   <div className="flex items-center gap-4">
@@ -110,7 +110,7 @@ export default function Cart() {
         {cart.length > 0 && (
           <div className="flex justify-between">
             <p>Shipping Fee</p>
-            <p>Rs. {shipping.toFixed(2)}</p>
+            <p>Rs. {shipping.toLocaleString("en-IN")}</p>
           </div>
         )}
 

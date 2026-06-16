@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/hover-card";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 import {
   Sheet,
@@ -22,10 +23,45 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import useCartStore from "@/src/stores/cartStore";
+import { useEffect, useState } from "react";
+import { supabase } from "@/src/lib/supabase";
+
+type Products = {
+  id: string;
+  images: string[];
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  thumbnail: string;
+  stock: number;
+};
 
 function Navbar() {
+  const [searchItem, setSearchItem] = useState("");
+  const [products, setProducts] = useState<Products[]>([]);
   const router = useRouter();
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data, error } = await supabase.from("products").select("*");
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+      setProducts(data || []);
+    };
+    fetchProducts();
+  }, []);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchItem(e.target.value);
+  };
+
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchItem.toLowerCase()),
+  );
   const navLinks = [
     {
       label: "SHOP ALL",
@@ -119,6 +155,8 @@ function Navbar() {
                   <input
                     type="text"
                     placeholder="Search"
+                    onChange={handleSearch}
+                    value={searchItem}
                     className="w-full border border-gray-300 rounded-2xl px-3 py-2 outline-none focus:border-emerald-500"
                   />
                 </div>
@@ -126,6 +164,35 @@ function Navbar() {
                   Need some inspirations?
                 </SheetDescription>
               </SheetHeader>
+              <div className="mt-5 space-y-3">
+                {(searchItem ? filteredProducts : products.slice(0, 5)).map(
+                  (product) => (
+                    <div
+                      key={product.id}
+                      className="border rounded-lg p-3 flex gap-5"
+                    >
+                      <Image
+                        src={product.images[0]}
+                        alt={product.title}
+                        width={65}
+                        height={65}
+                        priority
+                        className="object-cover transition-opacity duration-500 group-hover:opacity-0"
+                      />
+                      <div>
+                        <p className="text-sm text-gray-500 line-clamp-2">
+                          {product.category}
+                        </p>
+                        <p className="font-semibold">{product.title}</p>
+                        
+                        <p className="text-sm text-gray-500 line-clamp-2">
+                          {product.description}
+                        </p>
+                      </div>
+                    </div>
+                  ),
+                )}
+              </div>
             </SheetContent>
           </Sheet>
           <div

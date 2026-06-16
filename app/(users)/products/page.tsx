@@ -100,20 +100,20 @@ function ProductsPage() {
   return (
     <section className="px-6 bg-white min-h-screen">
       <div className="flex flex-col justify-center h-50 w-full items-center gap-3">
-  <h1
-    className={`text-4xl font-light tracking-widest text-gray-900 ${cantarell.className}`}
-  >
-    OUR PRODUCTS
-  </h1>
+        <h1
+          className={`text-4xl font-light tracking-widest text-gray-900 ${cantarell.className}`}
+        >
+          OUR PRODUCTS
+        </h1>
 
-  <div className="w-20 h-px bg-gray-300" />
+        <div className="w-20 h-px bg-gray-300" />
 
-  <p className="max-w-xl text-center text-sm text-gray-500 tracking-wide leading-relaxed">
-    Elevate your footwear care ritual with carefully curated essentials
-    designed to preserve craftsmanship, enhance durability, and maintain
-    timeless elegance in every step.
-  </p>
-</div>
+        <p className="max-w-xl text-center text-sm text-gray-500 tracking-wide leading-relaxed">
+          Elevate your footwear care ritual with carefully curated essentials
+          designed to preserve craftsmanship, enhance durability, and maintain
+          timeless elegance in every step.
+        </p>
+      </div>
       <div className="flex justify-between p-5 border-b border-t">
         <div className="p-2">
           <h1>All Products</h1>
@@ -231,12 +231,12 @@ function ProductsPage() {
                 <div className="space-y-1">
                   <p className="text-sm font-medium">{product.title}</p>
 
-                  <p className="text-xs text-gray-500 line-clamp-2">
+                  <p className="text-xs text-gray-500 line-clamp-1">
                     {product.description}
                   </p>
 
                   <p className="text-sm font-bold text-emerald-600">
-                    Rs {product.price.toFixed(2)}
+                    Rs {product.price.toLocaleString("en-IN")}
                   </p>
                 </div>
               </div>
