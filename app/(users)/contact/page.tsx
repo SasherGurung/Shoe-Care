@@ -51,7 +51,7 @@ function ContactPage() {
   return (
     <div className="bg-white min-h-screen flex items-center justify-center pt-0 px-4 py-12">
       <div className="w-full max-w-3xl">
-        <div className="text-center mb-10 space-y-3">
+        <div className="text-center mb-15 space-y-3">
           <h1
             className={`text-4xl md:text-6xl font-bold tracking-wide ${lavishly.className}`}
           >

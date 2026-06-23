@@ -92,7 +92,7 @@ function Navbar() {
         </div>
 
         <div className="flex gap-4 items-center justify-end cursor-pointer px-5">
-          <div className="hover:text-emerald-400 flex gap-1 hover:scale-105 transition-all duration-200 items-center">
+          <div onClick={() => router.push("/profile")} className="hover:text-emerald-400 flex gap-1 hover:scale-105 transition-all duration-200 items-center">
             <IoPersonOutline size={18} /> Account
           </div>
           <Sheet>

@@ -33,18 +33,34 @@ export default function Cart() {
             Home
           </Link>
 
-          <IoIosArrowForward className="text-gray-400 w-4 h-4" />
+          <IoIosArrowForward className="text-gray-400 w-4 `h-4" />
 
           <strong className="text-gray-800">Cart</strong>
         </div>
-        <p className="text-5xl text-center font-bold mb-2">YOUR CART</p>
+        <p className="text-4xl text-center font-bold mb-7">YOUR CART</p>
 
         {cart.length === 0 ? (
-          <div className="flex flex-col items-center justify-center mt-20 text-center space-y-4">
-            <MdRemoveShoppingCart className="text-emerald-500 w-16 h-16" />
-            <p className="text-3xl font-bold text-gray-800">
+          <div className="flex flex-col items-center justify-center gap-2 text-center">
+            <div className="w-28 h-28 rounded-full bg-gray-100 flex items-center justify-center mb-6">
+              <MdRemoveShoppingCart className="w-14 h-14 text-gray-400" />
+            </div>
+
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">
               Your cart is empty
+            </h2>
+
+            <p className="text-gray-500 max-w-md leading-relaxed mb-8">
+              Looks like you havent added anything yet. Explore our premium
+              footwear collection and find something you love.
             </p>
+
+            <Link
+              href="/products"
+              className="bg-black text-white px-8 py-4 rounded-lg flex items-center gap-2 hover:scale-[1.02] transition duration-200"
+            >
+              Continue Shopping
+              <FaArrowRightLong className="w-4 h-4" />
+            </Link>
           </div>
         ) : (
           cart.map((item) => (

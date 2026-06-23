@@ -18,10 +18,10 @@ import useCartStore from "@/src/stores/cartStore";
 type Product = {
   id: string;
   title: string;
-  brand: string;
   images: string[];
   thumbnail: string;
   description: string;
+  category: string;
   stock: number;
   price: number;
   sku: string;
@@ -137,7 +137,7 @@ export default function ProductsId() {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-15 mt-5">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20">
-        <div className="relative h-130 w-full rounded-2xl overflow-hidden shadow-lg cursor-pointer shadow-emerald-100">
+        <div className="relative h-130 w-full rounded-2xl overflow-hidden shadow-lg cursor-pointer shadow-emerald-50">
           <Image
             src={productImage}
             alt={product.title}
@@ -148,7 +148,7 @@ export default function ProductsId() {
 
         <div className="flex flex-col space-y-4">
           <p className="text-gray-500 text-base">
-            <strong className="text-black">Brand:</strong> {product.brand}
+            <strong className="text-black">Category:</strong> {product.category}
           </p>
 
           <h1 className="text-2xl sm:text-3xl lg:text-4xl tracking-tight">

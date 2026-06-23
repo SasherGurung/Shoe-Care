@@ -100,13 +100,16 @@ function HomePage() {
 
           <div className="relative z-10 flex items-center justify-center h-full text-center px-6">
             <div className="space-y-5">
-              <h1 className={`text-white font-bold tracking-wide text-6xl ${lavishly.className}`}>
+              <h1
+                className={`text-white font-bold tracking-wide text-6xl ${lavishly.className}`}
+              >
                 Premium Sneaker Care Studio
               </h1>
 
               <p className="text-white text-xm line-clamp-3 w-2xl">
                 Luxury sneaker care products designed to keep your shoes fresh
-                and protected. Not only do we sell these products, but we also use them ourselves every day.
+                and protected. Not only do we sell these products, but we also
+                use them ourselves every day.
               </p>
 
               <button
@@ -207,15 +210,8 @@ function HomePage() {
           <h1 className="tracking-tighter w-150 text-center text-7xl line-clamp-2 mb-4">
             About The Shoe Care Shop
           </h1>
-          <p className="line-clamp-7 text-center w-150 text-xs m-10">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. At
-            maiores, optio sequi excepturi cum fugit ex exercitationem, nam esse
-            saepe adipisci ullam repellat vero dolores quis magnam dolor,
-            mollitia quod! Lorem, ipsum dolor sit amet consectetur adipisicing
-            elit. Deleniti maxime, aut iusto Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Debitis enim maiores ut vel mollitia
-            ad, doloremque beatae architect excepturi eveniet, quisquam fuga
-            quasi!
+          <p className="line-clamp-7 text-center w-150 text-base m-10">
+          At ShoeCare, we believe that every pair of shoes deserves proper care and attention. Shoes are more than just accessories — they are part of your lifestyle, personality, and daily journey. Our goal is to help you keep your favorite footwear clean, protected, and looking fresh for longer.
           </p>
         </div>
 
