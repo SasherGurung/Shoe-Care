@@ -36,7 +36,3 @@ Built with modern frontend technologies including **Next.js, Tailwind CSS, Shadc
 - **ESLint** - Code quality and consistency
 - **Prettier** - Code formatting
 - **Git & GitHub** - Version control
-
----
-
-## Project Structure
