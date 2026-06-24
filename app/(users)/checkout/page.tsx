@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 function CheckoutPage() {
   const router = useRouter();
   const cart = useCartStore((state) => state.cart);
+  const clearCart = useCartStore((state) => state.clearCart);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -63,6 +64,7 @@ function CheckoutPage() {
       router.push("/cart");
 
       resetForm();
+      clearCart();
     } catch (error) {
       console.log(error)
     } finally {
