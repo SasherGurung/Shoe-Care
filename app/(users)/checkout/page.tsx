@@ -200,7 +200,7 @@ function CheckoutPage() {
               <div className="flex flex-col gap-4">
                 <h1 className="text-xl font-semibold">Review Your Cart</h1>
 
-                <div className="flex items-center justify-between border rounded-xl p-2 px-4 mb-4">
+                <div className="flex flex-col gap-3 justify-between border rounded-xl p-2 px-4 mb-4">
                   {cart.length === 0 ? (
                     <div className="flex flex-col items-center justify-center gap-2 text-center">
                       <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-6">
