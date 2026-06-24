@@ -12,6 +12,12 @@ function ContactPage() {
 
   const [loading, setLoading] = useState(false);
 
+  const resetForm = () =>{
+    setName("");
+    setEmail("");
+    setMessage("");
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -33,13 +39,11 @@ function ContactPage() {
         console.log("SUPABASE ERROR:", error.message);
         toast.error(error.message);
         return;
-      }
+      };
 
       toast.success("Message sent successfully");
 
-      setName("");
-      setEmail("");
-      setMessage("");
+      resetForm();
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");

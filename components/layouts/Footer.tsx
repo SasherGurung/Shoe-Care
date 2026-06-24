@@ -6,12 +6,11 @@ import Link from "next/link";
 function Footer() {
   const footerSections = [
     {
-      title: "COMPANY",
+      title: "QUICK OVERVIEW",
       links: [
         { name: "Contact", href: "/contact" },
         { name: "About Us", href: "/about" },
-        { name: "News", href: "/" },
-        { name: "Cleaning Service", href: "/" },
+        { name: "Personal Service", href: "/about" },
       ],
     },
     {

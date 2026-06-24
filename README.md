@@ -20,19 +20,15 @@ Built with modern frontend technologies including **Next.js, Tailwind CSS, Shadc
 
 ##  Tech Stack
 
-### Frontend
-
 - **Next.js** - React framework for production-ready applications
 - **React** - Component-based UI development
 - **TypeScript** - Type-safe JavaScript development
 - **Tailwind CSS** - Utility-first CSS framework
 - **Shadcn UI** - Accessible and customizable UI components
-- **Zustand** - Lightweight state management
+- **Zustand** - Lightweight global state management
 - **React Icons** - Popular icon library for React applications
 - **Lucide React** - Modern icon library used with Shadcn UI
 
 ### Development Tools
 
-- **ESLint** - Code quality and consistency
-- **Prettier** - Code formatting
 - **Git & GitHub** - Version control
