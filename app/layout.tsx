@@ -4,8 +4,6 @@ import { cantarell } from "./fonts";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Toaster } from "react-hot-toast";
-import Navbar from "@/components/layouts/Navbar";
-import Footer from "@/components/layouts/Footer";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -32,12 +30,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
-        <Navbar />
         <main className="flex-1">
           <Toaster position="top-center" />
           {children}
         </main>
-        <Footer />
       </body>
     </html>
   );

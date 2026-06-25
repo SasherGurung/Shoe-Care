@@ -115,7 +115,7 @@ function HomePage() {
               <button
                 onClick={() => router.push("/products")}
                 className="mt-4 px-7 py-3 rounded-2xl font-medium transition-all hover:scale-105
-        bg-emerald-400 hover:bg-emerald-300 text-white cursor-pointer"
+              bg-emerald-400 hover:bg-emerald-300 text-white cursor-pointer"
               >
                 Shop Now
               </button>
@@ -146,15 +146,14 @@ function HomePage() {
               <div className="absolute inset-0 bg-black/30" />
 
               <div className="relative z-10 text-center text-white px-6">
-                <h1 className="text-3xl md:text-4xl font-bold uppercase">
+                <h1 className={`text-3xl md:text-5xl tracking-widest font-bold ${lavishly.className}`}>
                   Shoe Care Valets
                 </h1>
 
                 <p className="mt-4 text-sm md:text-base text-white/90">
-                  Curated shoe care kits designed for premium sneaker
-                  maintenance. Lorem ipsum dolor sit amet consectetur,
-                  adipisicing elit. Id corporis rerum ullam saepe aperiam dolore
-                  perspiciatis.
+                  Protect your investment with regular cleaning and proper
+                  storage. Avoid direct sunlight and water exposure to preserve
+                  the shoe appearance, durability, and performance.
                 </p>
               </div>
             </div>
@@ -207,11 +206,15 @@ function HomePage() {
 
       <section className="py-12 px-6">
         <div className="flex justify-center flex-col items-center">
-          <h1 className="tracking-tighter w-150 text-center text-7xl line-clamp-2 mb-4">
-            About The Shoe Care Shop
+          <h1 className={`tracking-tighter w-150 text-center text-7xl line-clamp-2 mb-4 ${lavishly.className}`}>
+            About Shoe Care
           </h1>
           <p className="line-clamp-7 text-center w-150 text-base m-10">
-          At ShoeCare, we believe that every pair of shoes deserves proper care and attention. Shoes are more than just accessories — they are part of your lifestyle, personality, and daily journey. Our goal is to help you keep your favorite footwear clean, protected, and looking fresh for longer.
+            At ShoeCare, we believe that every pair of shoes deserves proper
+            care and attention. Shoes are more than just accessories — they are
+            part of your lifestyle, personality, and daily journey. Our goal is
+            to help you keep your favorite footwear clean, protected, and
+            looking fresh for longer.
           </p>
         </div>
 

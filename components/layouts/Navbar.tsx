@@ -10,6 +10,7 @@ import Image from "next/image";
 
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -122,29 +123,32 @@ function Navbar() {
               <div className="mt-5 space-y-3">
                 {(searchItem ? filteredProducts : products.slice(0, 5)).map(
                   (product) => (
-                    <div
-                      key={product.id}
-                      className="border rounded-lg p-3 flex gap-5"
-                    >
-                      <Image
-                        src={product.images[0]}
-                        alt={product.title}
-                        width={65}
-                        height={65}
-                        priority
-                        className="object-cover transition-opacity duration-500 group-hover:opacity-0"
-                      />
-                      <div>
-                        <p className="text-sm text-gray-500 line-clamp-2">
-                          {product.category}
-                        </p>
-                        <p className="font-semibold">{product.title}</p>
+                    <SheetClose asChild key={product.id}>
+                      <Link
+                        href={`/products/${product.id}`}
+                        onClick={() => setSearchItem("")}
+                        className="border rounded-lg p-3 flex gap-5 cursor-pointer hover:bg-gray-50 hover:border-emerald-300 transition-colors"
+                      >
+                        <Image
+                          src={product.images[0] || product.thumbnail}
+                          alt={product.title}
+                          width={65}
+                          height={65}
+                          priority
+                          className="object-cover rounded-md"
+                        />
+                        <div>
+                          <p className="text-sm text-gray-500 line-clamp-2">
+                            {product.category}
+                          </p>
+                          <p className="font-semibold">{product.title}</p>
 
-                        <p className="text-sm text-gray-500 line-clamp-2">
-                          {product.description}
-                        </p>
-                      </div>
-                    </div>
+                          <p className="text-sm text-gray-500 line-clamp-2">
+                            {product.description}
+                          </p>
+                        </div>
+                      </Link>
+                    </SheetClose>
                   ),
                 )}
               </div>

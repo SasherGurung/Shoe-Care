@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import {
   Sheet,
@@ -123,7 +122,7 @@ function ProductsPage() {
     <section className="px-6 bg-white min-h-screen">
       <div className="flex flex-col justify-center h-50 w-full items-center gap-3">
         <h1
-          className={`text-4xl font-light tracking-widest text-gray-900 ${cantarell.className}`}
+          className={`text-4xl tracking-widest ${cantarell.className}`}
         >
           OUR PRODUCTS
         </h1>
