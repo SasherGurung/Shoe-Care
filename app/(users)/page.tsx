@@ -1,40 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/src/lib/supabase";
 import { lavishly } from "../fonts";
-
-type Products = {
-  id: string;
-  images: string[];
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  thumbnail: string;
-};
+import { useProductStore } from "@/lib/stores/Products/productStore";
 
 function HomePage() {
   const router = useRouter();
-  const [products, setProducts] = useState<Products[]>([]);
+  const products = useProductStore((state) => state.products);
+  const fetchProduct = useProductStore((state) => state.fetchProduct);
 
   useEffect(() => {
-    const getAllProducts = async () => {
-      const { data, error } = await supabase.from("products").select("*");
+    fetchProduct();
+  }, [fetchProduct]);
 
-      if (error) {
-        console.log(error);
-        return;
-      }
-
-      setProducts(data || []);
-    };
-
-    getAllProducts();
-  }, []);
+  const limitedProduct = products.slice(0, 6);
 
   const features = [
     {
@@ -76,8 +58,6 @@ function HomePage() {
     },
   ];
 
-  const limitedProduct = products.slice(0, 6);
-
   return (
     <div className="w-full min-h-screen bg-white text-black">
       <Link href="/products" className="cursor-default">
@@ -88,7 +68,7 @@ function HomePage() {
                 src="/assets/home2.png"
                 alt="Hero sneaker"
                 fill
-                priority
+                loading="lazy"
                 className="object-cover"
               />
 
@@ -141,12 +121,15 @@ function HomePage() {
                 src="/assets/shoe1.png"
                 alt="main"
                 fill
+                loading="lazy"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-black/30" />
 
               <div className="relative z-10 text-center text-white px-6">
-                <h1 className={`text-3xl md:text-5xl tracking-widest font-bold ${lavishly.className}`}>
+                <h1
+                  className={`text-3xl md:text-5xl tracking-widest font-bold ${lavishly.className}`}
+                >
                   Shoe Care Valets
                 </h1>
 
@@ -168,7 +151,7 @@ function HomePage() {
                       src={product.images[0] || product.thumbnail}
                       alt={product.title}
                       fill
-                      priority
+                      loading="lazy"
                       className="object-cover transition-opacity duration-500 group-hover:opacity-0"
                     />
 
@@ -176,6 +159,7 @@ function HomePage() {
                       src={product.thumbnail}
                       alt={product.title}
                       fill
+                      loading="lazy"
                       className="object-cover absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                     />
                   </div>
@@ -206,7 +190,9 @@ function HomePage() {
 
       <section className="py-12 px-6">
         <div className="flex justify-center flex-col items-center">
-          <h1 className={`tracking-tighter w-150 text-center text-7xl line-clamp-2 mb-4 ${lavishly.className}`}>
+          <h1
+            className={`tracking-tighter w-150 text-center text-7xl line-clamp-2 mb-4 ${lavishly.className}`}
+          >
             About Shoe Care
           </h1>
           <p className="line-clamp-7 text-center w-150 text-base m-10">
@@ -225,6 +211,7 @@ function HomePage() {
                 src={item.image}
                 alt={item.title}
                 fill
+                loading="lazy"
                 className="object-cover group-hover:scale-105 transition duration-500"
               />
 

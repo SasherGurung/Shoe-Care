@@ -2,54 +2,51 @@
 
 import React, { useState } from "react";
 import { lavishly } from "@/app/fonts";
-import { supabase } from "@/src/lib/supabase";
 import toast from "react-hot-toast";
+import { useContactStore } from "@/lib/stores/Contact/contactStore";
 
 function ContactPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const { postContact } = useContactStore();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
   const [loading, setLoading] = useState(false);
 
-  const resetForm = () =>{
-    setName("");
-    setEmail("");
-    setMessage("");
-  }
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      email: "",
+      message: "",
+    });
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const { name, email, message } = formData;
 
     if (!name || !email || !message) {
       toast.error("Please fill all fields");
       return;
     }
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const { error } = await supabase.from("contact_messages").insert({
-        name,
-        email,
-        message,
-      });
-
-      if (error) {
-        console.log("SUPABASE ERROR:", error.message);
-        toast.error(error.message);
-        return;
-      };
-
-      toast.success("Message sent successfully");
-
-      resetForm();
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
+    await postContact({ name, email, message });
+    resetForm();
   };
 
   return (
@@ -78,10 +75,11 @@ function ContactPage() {
               <label className="text-sm text-gray-600">Name</label>
 
               <input
+                name="name"
+                value="name"
                 type="text"
                 placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={handleChange}
                 className="w-full mt-1 border border-gray-300 px-4 py-2 rounded-xs focus:outline-none focus:ring-1 focus:ring-emerald-400"
               />
             </div>
@@ -90,10 +88,11 @@ function ContactPage() {
               <label className="text-sm text-gray-600">Email</label>
 
               <input
+                name="email"
+                value="email"
                 type="email"
                 placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleChange}
                 className="w-full mt-1 border border-gray-300 px-4 py-2 rounded-xs focus:outline-none focus:ring-1 focus:ring-emerald-400"
               />
             </div>
@@ -103,10 +102,11 @@ function ContactPage() {
             <label className="text-sm text-gray-600">Message</label>
 
             <textarea
+              name="message"
+              value="message"
               rows={6}
               placeholder="Write your message..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={handleChange}
               className="w-full mt-1 border border-gray-300 px-4 py-3 rounded-xs resize-none focus:outline-none focus:ring-1 focus:ring-emerald-400"
             />
           </div>

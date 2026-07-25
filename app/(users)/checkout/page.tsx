@@ -4,73 +4,63 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { TbTruckDelivery } from "react-icons/tb";
 import { FiBox } from "react-icons/fi";
-import useCartStore from "@/src/stores/cartStore";
+import useCartStore from "@/lib/stores/Cart/cartStore";
 import { MdRemoveShoppingCart } from "react-icons/md";
-import { toast } from "react-hot-toast";
-import { supabase } from "@/src/lib/supabase";
+import { useCheckoutStore } from "@/lib/stores/Checkout/checkoutStore";
 import { useRouter } from "next/navigation";
 
 function CheckoutPage() {
   const router = useRouter();
+  const { placeOrder } = useCheckoutStore();
   const cart = useCartStore((state) => state.cart);
   const clearCart = useCartStore((state) => state.clearCart);
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [shippingMethod, setShippingMethod ] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [formData, setFormData] = useState({
+    full_Name: "",
+    email: "",
+    phone: "",
+    city: "",
+    postal_Code: "",
+    shipping_Method: "",
+    payment_Method: "",
+  });
 
   const [loading, setLoading] = useState(false);
 
   const resetForm = () => {
-    setFullName("");
-    setEmail("");
-    setPhone("");
-    setCity("");
-    setPostalCode("");
-    setShippingMethod("");
-    setPaymentMethod("");
+    setFormData({
+      full_Name: "",
+      email: "",
+      phone: "",
+      city: "",
+      postal_Code: "",
+      shipping_Method: "",
+      payment_Method: "",
+    });
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!fullName || !email || !phone || !city || !postalCode || !shippingMethod ) {
-      toast.error("Please fill all the required fields")
-      return;
-    }
+    setLoading(true);
+    const order = await placeOrder(formData);
+    setLoading(false);
 
-    try {
-      setLoading(true);
-
-      const { error } = await supabase.from("checkout_details").insert({
-        full_Name: fullName,
-        email,
-        phone,
-        city,
-        postal_Code: postalCode,
-        shipping_Method: shippingMethod,
-        payment_Method: paymentMethod,
-      });
-
-      if (error) {
-        toast.error(error.message)
-        return;
-      };
-      
-      toast.success("Order Placed Successfully");
-      router.push("/cart");
-
-      resetForm();
+    if (order) {
       clearCart();
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setLoading(false);
+      resetForm();
+      router.push("/")
     }
-  }
+  };
 
   const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -93,12 +83,24 @@ function CheckoutPage() {
               </h2>
               <div className="flex gap-5 ">
                 <label className="flex items-center justify-center gap-2 border focus-ring-1 focus:ring-emerald-500 w-full py-3 rounded-xl cursor-pointer">
-                  <input type="radio" name="shippingMethod" value="Delivery" checked={shippingMethod === "Delivery"} onChange={(e) => setShippingMethod(e.target.value)} />
+                  <input
+                    type="radio"
+                    name="shipping_Method"
+                    value="Delivery"
+                    checked={formData.shipping_Method === "Delivery"}
+                    onChange={handleChange}
+                  />
                   <TbTruckDelivery /> Delivery
                 </label>
 
                 <label className="flex items-center justify-center gap-2 border focus-ring-1 focus:ring-emerald-500 w-full py-3 rounded-xl cursor-pointer">
-                  <input type="radio" name="shippingMethod" value="Pick up" checked={shippingMethod === "Pick up"} onChange={(e) => setShippingMethod(e.target.value)} />
+                  <input
+                    type="radio"
+                    name="shipping_Method"
+                    value="Pick up"
+                    checked={formData.shipping_Method === "Pick up"}
+                    onChange={handleChange}
+                  />
                   <FiBox /> Pick Up
                 </label>
               </div>
@@ -110,8 +112,9 @@ function CheckoutPage() {
                   <input
                     id="name"
                     type="text"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
+                    name="full_Name"
+                    value={formData.full_Name}
+                    onChange={handleChange}
                     placeholder="Full name"
                     className="w-full border rounded-lg p-2 outline-none mt-1 focus:ring-1 focus:ring-green-500"
                   />
@@ -123,8 +126,9 @@ function CheckoutPage() {
                   <input
                     id="email"
                     type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="Email Address"
                     className="w-full border rounded-lg p-2 outline-none mt-1 focus:ring-1 focus:ring-green-500"
                   />
@@ -135,9 +139,9 @@ function CheckoutPage() {
                   </label>
                   <input
                     id="phone"
-                    type="numeric"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     placeholder="Phone Number"
                     inputMode="numeric"
                     className="w-full border rounded-lg p-2 outline-none mt-1 focus:ring-1 focus:ring-green-500"
@@ -151,8 +155,9 @@ function CheckoutPage() {
                     <input
                       id="city"
                       type="text"
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
                       placeholder="Enter city"
                       className="w-full border rounded-lg p-2 outline-none mt-1 focus:ring-1 focus:ring-green-500"
                     />
@@ -164,8 +169,9 @@ function CheckoutPage() {
                     <input
                       id="zip"
                       type="text"
-                      value={postalCode}
-                      onChange={(e) => setPostalCode(e.target.value)}
+                      name="postal_Code"
+                      value={formData.postal_Code}
+                      onChange={handleChange}
                       placeholder="Postal Code"
                       className="w-full border rounded-lg p-2 outline-none mt-1 focus:ring-1 focus:ring-green-500"
                     />
@@ -173,30 +179,45 @@ function CheckoutPage() {
                 </div>
               </div>
             </div>
-
             <div className="bg-white border rounded-xl p-6">
               <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
 
               <div className="flex justify-evenly gap-5">
                 <label className="w-full flex items-center gap-3 border rounded-lg p-4 cursor-pointer">
-                  <input type="radio" name="payment" value=
-                  "Cash on Delivery" checked={paymentMethod === "Cash on Delivery"} onChange={(e) => setPaymentMethod(e.target.value)} />
+                  <input
+                    type="radio"
+                    name="payment_Method"
+                    value="Cash on Delivery"
+                    checked={formData.payment_Method === "Cash on Delivery"}
+                    onChange={handleChange}
+                  />
                   <span>Cash on Delivery</span>
                 </label>
 
                 <label className="w-full flex items-center gap-3 border rounded-lg p-4 cursor-pointer">
-                  <input type="radio" name="payment" value="eSewa" checked={paymentMethod === "eSewa"} onChange={(e) => setPaymentMethod(e.target.value)} />
+                  <input
+                    type="radio"
+                    name="payment_Method"
+                    value="eSewa"
+                    checked={formData.payment_Method === "eSewa"}
+                    onChange={handleChange}
+                  />
                   <span>eSewa</span>
                 </label>
 
                 <label className="w-full flex items-center gap-3 border rounded-lg p-4 cursor-pointer">
-                  <input type="radio" name="payment" value="Khalti" checked={paymentMethod === "Khalti"} onChange={(e) => setPaymentMethod(e.target.value)}/>
+                  <input
+                    type="radio"
+                    name="payment_Method"
+                    value="Khalti"
+                    checked={formData.payment_Method === "Khalti"}
+                    onChange={handleChange}
+                  />
                   <span>Khalti</span>
                 </label>
               </div>
             </div>
           </div>
-
           <div>
             <div className="bg-white border rounded-xl py-10 px-15 sticky top-20">
               <div className="flex flex-col gap-4">
@@ -226,7 +247,7 @@ function CheckoutPage() {
                           alt={items.title}
                           width={90}
                           height={90}
-                          priority
+                          loading="lazy"
                           className="rounded-lg object-cover"
                         />
 
@@ -242,7 +263,6 @@ function CheckoutPage() {
                   )}
                 </div>
               </div>
-
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
@@ -266,8 +286,10 @@ function CheckoutPage() {
                   <span>Rs. {total.toLocaleString("en-IN")}</span>
                 </div>
               </div>
-
-              <button disabled={loading} className="w-full mt-6 bg-emerald-400 hover:bg-emerald-500 cursor-pointer flex justify-center items-center text-white py-3 rounded-lg hover:opacity-90 transition">
+              <button
+                disabled={loading}
+                className="w-full mt-6 bg-emerald-400 hover:bg-emerald-500 cursor-pointer flex justify-center items-center text-white py-3 rounded-lg hover:opacity-90 transition"
+              >
                 {loading ? "Placing Order.." : "Place Order"}
               </button>
 

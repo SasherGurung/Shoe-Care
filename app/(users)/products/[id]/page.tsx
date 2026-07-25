@@ -11,9 +11,9 @@ import {
 import { CheckCircle } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { supabase } from "@/src/lib/supabase";
 import { SiTicktick } from "react-icons/si";
-import useCartStore from "@/src/stores/cartStore";
+import useCartStore from "@/lib/stores/Cart/cartStore";
+import { useProductStore } from "@/lib/stores/Products/productStore";
 
 type Product = {
   id: string;
@@ -37,6 +37,7 @@ export default function ProductsId() {
   const id = param?.id as string;
   const router = useRouter();
 
+  const { fetchProductById } = useProductStore();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
@@ -46,27 +47,14 @@ export default function ProductsId() {
   const addToCart = useCartStore((state) => state.addToCart);
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const loadProduct = async () => {
       setLoading(true);
-
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-      if (error) {
-        console.log(error);
-        setProduct(null);
-      } else {
-        setProduct(data);
-      }
-
+      const product = await fetchProductById(id);
+      setProduct(product);
       setLoading(false);
     };
-
-    fetchProduct();
-  }, [id]);
+    loadProduct();
+  }, [id, fetchProductById]);
 
   const outOfStock = product?.stock === 0;
 
@@ -141,6 +129,7 @@ export default function ProductsId() {
           <Image
             src={productImage}
             alt={product.title}
+            loading="lazy"
             fill
             className="object-cover hover:scale-105 transition-transform duration-500"
           />
