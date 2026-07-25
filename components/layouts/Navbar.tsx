@@ -17,9 +17,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import useCartStore from "@/src/stores/cartStore";
+import useCartStore from "@/lib/stores/Cart/cartStore";
 import { useEffect, useState } from "react";
-import { supabase } from "@/src/lib/supabase";
+import { supabase } from "@/lib/lib/supabase";
 
 type Products = {
   id: string;

@@ -25,7 +25,7 @@ import {
 import { IoFilter } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/src/lib/supabase";
+import { useProductStore } from "@/lib/stores/Products/productStore";
 
 type Products = {
   id: string;
@@ -39,6 +39,7 @@ type Products = {
 };
 
 function ProductsPage() {
+  const { fetchProduct } = useProductStore();
   const [products, setProducts] = useState<Products[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -75,19 +76,8 @@ function ProductsPage() {
   );
 
   useEffect(() => {
-    const getAllProducts = async () => {
-      const { data, error } = await supabase.from("products").select("*");
-
-      if (error) {
-        console.log(error);
-        return;
-      }
-
-      setProducts(data || []);
-    };
-
-    getAllProducts();
-  }, []);
+    fetchProduct();
+  }, [fetchProduct]);
 
   useEffect(() => {
     window.scrollTo({
@@ -121,9 +111,7 @@ function ProductsPage() {
   return (
     <section className="px-6 bg-white min-h-screen">
       <div className="flex flex-col justify-center h-50 w-full items-center gap-3">
-        <h1
-          className={`text-4xl tracking-widest ${cantarell.className}`}
-        >
+        <h1 className={`text-4xl tracking-widest ${cantarell.className}`}>
           OUR PRODUCTS
         </h1>
 

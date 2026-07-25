@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import useCartStore from "@/src/stores/cartStore";
+import useCartStore from "@/lib/stores/Cart/cartStore";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { RiDeleteBin5Line } from "react-icons/ri";

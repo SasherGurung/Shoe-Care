@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { TbTruckDelivery } from "react-icons/tb";
 import { FiBox } from "react-icons/fi";
-import useCartStore from "@/src/stores/cartStore";
+import useCartStore from "@/lib/stores/Cart/cartStore";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import { toast } from "react-hot-toast";
-import { supabase } from "@/src/lib/supabase";
+import { supabase } from "@/lib/lib/supabase";
 import { useRouter } from "next/navigation";
 
 function CheckoutPage() {

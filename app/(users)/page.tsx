@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/src/lib/supabase";
 import { lavishly } from "../fonts";
+import { useProductStore } from "@/lib/stores/Products/productStore";
 
 type Products = {
   id: string;
@@ -19,22 +19,12 @@ type Products = {
 
 function HomePage() {
   const router = useRouter();
+  const { fetchProduct } = useProductStore();
   const [products, setProducts] = useState<Products[]>([]);
 
   useEffect(() => {
-    const getAllProducts = async () => {
-      const { data, error } = await supabase.from("products").select("*");
-
-      if (error) {
-        console.log(error);
-        return;
-      }
-
-      setProducts(data || []);
-    };
-
-    getAllProducts();
-  }, []);
+    fetchProduct();
+  }, [fetchProduct])
 
   const features = [
     {
@@ -146,7 +136,9 @@ function HomePage() {
               <div className="absolute inset-0 bg-black/30" />
 
               <div className="relative z-10 text-center text-white px-6">
-                <h1 className={`text-3xl md:text-5xl tracking-widest font-bold ${lavishly.className}`}>
+                <h1
+                  className={`text-3xl md:text-5xl tracking-widest font-bold ${lavishly.className}`}
+                >
                   Shoe Care Valets
                 </h1>
 
@@ -206,7 +198,9 @@ function HomePage() {
 
       <section className="py-12 px-6">
         <div className="flex justify-center flex-col items-center">
-          <h1 className={`tracking-tighter w-150 text-center text-7xl line-clamp-2 mb-4 ${lavishly.className}`}>
+          <h1
+            className={`tracking-tighter w-150 text-center text-7xl line-clamp-2 mb-4 ${lavishly.className}`}
+          >
             About Shoe Care
           </h1>
           <p className="line-clamp-7 text-center w-150 text-base m-10">
