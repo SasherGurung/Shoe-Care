@@ -27,20 +27,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useProductStore } from "@/lib/stores/Products/productStore";
 
-type Products = {
-  id: string;
-  images: string[];
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  thumbnail: string;
-  stock: number;
-};
-
 function ProductsPage() {
-  const { fetchProduct } = useProductStore();
-  const [products, setProducts] = useState<Products[]>([]);
+  const products = useProductStore((state) => state.products);
+  const fetchProduct = useProductStore((state) => state.fetchProduct);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [appliedCategory, setAppliedCategory] = useState("");
@@ -54,14 +44,8 @@ function ProductsPage() {
       appliedCategory ? product.category === appliedCategory : true,
     )
     .sort((a, b) => {
-      if (appliedSortPrice === "low-high") {
-        return a.price - b.price;
-      }
-
-      if (appliedSortPrice === "high-low") {
-        return b.price - a.price;
-      }
-
+      if (appliedSortPrice === "low-high") return a.price - b.price;
+      if (appliedSortPrice === "high-low") return b.price - a.price;
       return 0;
     });
 
@@ -69,7 +53,6 @@ function ProductsPage() {
     1,
     Math.ceil(filteredProducts.length / itemsPerPage),
   );
-
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
@@ -80,10 +63,7 @@ function ProductsPage() {
   }, [fetchProduct]);
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
   const getStatus = (stock: number) => {
@@ -258,13 +238,14 @@ function ProductsPage() {
                   src={product.images[0] || product.thumbnail}
                   alt={product.title}
                   fill
-                  priority
+                  loading="lazy"
                   className="object-cover transition-opacity duration-500 group-hover:opacity-0"
                 />
 
                 <Image
                   src={product.thumbnail}
                   alt={product.title}
+                  loading="lazy"
                   fill
                   className="object-cover absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                 />

@@ -6,10 +6,11 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { FiBox } from "react-icons/fi";
 import useCartStore from "@/lib/stores/Cart/cartStore";
 import { MdRemoveShoppingCart } from "react-icons/md";
-import { toast } from "react-hot-toast";
 import { useCheckoutStore } from "@/lib/stores/Checkout/checkoutStore";
+import { useRouter } from "next/navigation";
 
 function CheckoutPage() {
+  const router = useRouter();
   const { placeOrder } = useCheckoutStore();
   const cart = useCartStore((state) => state.cart);
   const clearCart = useCartStore((state) => state.clearCart);
@@ -49,13 +50,15 @@ function CheckoutPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const order = await placeOrder(formData);
-    if (order) {
-      toast.success("Order place successfully");
-      setLoading(true);
-      clearCart();
 
+    setLoading(true);
+    const order = await placeOrder(formData);
+    setLoading(false);
+
+    if (order) {
+      clearCart();
       resetForm();
+      router.push("/")
     }
   };
 
@@ -82,7 +85,7 @@ function CheckoutPage() {
                 <label className="flex items-center justify-center gap-2 border focus-ring-1 focus:ring-emerald-500 w-full py-3 rounded-xl cursor-pointer">
                   <input
                     type="radio"
-                    name="shippingMethod"
+                    name="shipping_Method"
                     value="Delivery"
                     checked={formData.shipping_Method === "Delivery"}
                     onChange={handleChange}
@@ -93,7 +96,7 @@ function CheckoutPage() {
                 <label className="flex items-center justify-center gap-2 border focus-ring-1 focus:ring-emerald-500 w-full py-3 rounded-xl cursor-pointer">
                   <input
                     type="radio"
-                    name="shippingMethod"
+                    name="shipping_Method"
                     value="Pick up"
                     checked={formData.shipping_Method === "Pick up"}
                     onChange={handleChange}
@@ -176,7 +179,6 @@ function CheckoutPage() {
                 </div>
               </div>
             </div>
-
             <div className="bg-white border rounded-xl p-6">
               <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
 
@@ -216,7 +218,6 @@ function CheckoutPage() {
               </div>
             </div>
           </div>
-
           <div>
             <div className="bg-white border rounded-xl py-10 px-15 sticky top-20">
               <div className="flex flex-col gap-4">
@@ -246,7 +247,7 @@ function CheckoutPage() {
                           alt={items.title}
                           width={90}
                           height={90}
-                          priority
+                          loading="lazy"
                           className="rounded-lg object-cover"
                         />
 
@@ -262,7 +263,6 @@ function CheckoutPage() {
                   )}
                 </div>
               </div>
-
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
@@ -286,7 +286,6 @@ function CheckoutPage() {
                   <span>Rs. {total.toLocaleString("en-IN")}</span>
                 </div>
               </div>
-
               <button
                 disabled={loading}
                 className="w-full mt-6 bg-emerald-400 hover:bg-emerald-500 cursor-pointer flex justify-center items-center text-white py-3 rounded-lg hover:opacity-90 transition"

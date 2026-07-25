@@ -19,36 +19,18 @@ import {
 } from "@/components/ui/sheet";
 import useCartStore from "@/lib/stores/Cart/cartStore";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/lib/supabase";
-
-type Products = {
-  id: string;
-  images: string[];
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  thumbnail: string;
-  stock: number;
-};
+import { useProductStore } from "@/lib/stores/Products/productStore";
 
 function Navbar() {
   const [searchItem, setSearchItem] = useState("");
-  const [products, setProducts] = useState<Products[]>([]);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const { data, error } = await supabase.from("products").select("*");
+  const products = useProductStore((state) => state.products);
+  const fetchProduct = useProductStore((state) => state.fetchProduct);
 
-      if (error) {
-        console.log(error);
-        return;
-      }
-      setProducts(data || []);
-    };
-    fetchProducts();
-  }, []);
+  useEffect(() => {
+    fetchProduct();
+  }, [fetchProduct]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchItem(e.target.value);
@@ -93,7 +75,10 @@ function Navbar() {
         </div>
 
         <div className="flex gap-4 items-center justify-end cursor-pointer px-5">
-          <div onClick={() => router.push("/profile")} className="hover:text-emerald-400 flex gap-1 hover:scale-105 transition-all duration-200 items-center">
+          <div
+            onClick={() => router.push("/profile")}
+            className="hover:text-emerald-400 flex gap-1 hover:scale-105 transition-all duration-200 items-center"
+          >
             <IoPersonOutline size={18} /> Account
           </div>
           <Sheet>

@@ -48,11 +48,13 @@ export default function ProductsId() {
 
   useEffect(() => {
     const loadProduct = async () => {
+      setLoading(true);
       const product = await fetchProductById(id);
       setProduct(product);
+      setLoading(false);
     };
     loadProduct();
-  }, [id]);
+  }, [id, fetchProductById]);
 
   const outOfStock = product?.stock === 0;
 
@@ -127,6 +129,7 @@ export default function ProductsId() {
           <Image
             src={productImage}
             alt={product.title}
+            loading="lazy"
             fill
             className="object-cover hover:scale-105 transition-transform duration-500"
           />

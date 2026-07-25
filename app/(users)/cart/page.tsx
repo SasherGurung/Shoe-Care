@@ -135,16 +135,6 @@ export default function Cart() {
           <p>Rs. {(subtotal + shipping).toLocaleString("en-IN")}</p>
         </div>
 
-        <div className="flex flex-col items-center gap-2">
-          <p className="text-lg font-black text-center">Promo Code</p>
-
-          <input
-            type="text"
-            placeholder="Enter promo code"
-            className="w-full max-w-sm px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring- focus:ring-emerald-500 focus:border-emerald-500"
-          />
-        </div>
-
         <button
           onClick={() => {
             if (cart.length === 0) {
@@ -153,7 +143,7 @@ export default function Cart() {
             }
             router.push("/checkout");
           }}
-          className="w-full mt-6 bg-black text-white py-4 rounded-lg cursor-pointer hover:scale-[1.01] transition-all duration-100 flex items-center gap-2 justify-center"
+          className="w-full mt-6 bg-emerald-500 hover:bg-emerald-400 text-white py-4 rounded-lg cursor-pointer hover:scale-[1.01] transition-all duration-100 flex items-center gap-2 justify-center"
         >
           Go to Checkout{" "}
           <FaArrowRightLong className="w-4 h-4 relative top-0.5" />

@@ -1,30 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { lavishly } from "../fonts";
 import { useProductStore } from "@/lib/stores/Products/productStore";
 
-type Products = {
-  id: string;
-  images: string[];
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  thumbnail: string;
-};
-
 function HomePage() {
   const router = useRouter();
-  const { fetchProduct } = useProductStore();
-  const [products, setProducts] = useState<Products[]>([]);
+  const products = useProductStore((state) => state.products);
+  const fetchProduct = useProductStore((state) => state.fetchProduct);
 
   useEffect(() => {
     fetchProduct();
-  }, [fetchProduct])
+  }, [fetchProduct]);
+
+  const limitedProduct = products.slice(0, 6);
 
   const features = [
     {
@@ -66,8 +58,6 @@ function HomePage() {
     },
   ];
 
-  const limitedProduct = products.slice(0, 6);
-
   return (
     <div className="w-full min-h-screen bg-white text-black">
       <Link href="/products" className="cursor-default">
@@ -78,7 +68,7 @@ function HomePage() {
                 src="/assets/home2.png"
                 alt="Hero sneaker"
                 fill
-                priority
+                loading="lazy"
                 className="object-cover"
               />
 
@@ -131,6 +121,7 @@ function HomePage() {
                 src="/assets/shoe1.png"
                 alt="main"
                 fill
+                loading="lazy"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-black/30" />
@@ -160,7 +151,7 @@ function HomePage() {
                       src={product.images[0] || product.thumbnail}
                       alt={product.title}
                       fill
-                      priority
+                      loading="lazy"
                       className="object-cover transition-opacity duration-500 group-hover:opacity-0"
                     />
 
@@ -168,6 +159,7 @@ function HomePage() {
                       src={product.thumbnail}
                       alt={product.title}
                       fill
+                      loading="lazy"
                       className="object-cover absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                     />
                   </div>
@@ -219,6 +211,7 @@ function HomePage() {
                 src={item.image}
                 alt={item.title}
                 fill
+                loading="lazy"
                 className="object-cover group-hover:scale-105 transition duration-500"
               />
 
