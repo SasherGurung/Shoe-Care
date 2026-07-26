@@ -8,6 +8,8 @@ import useCartStore from "@/lib/stores/Cart/cartStore";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import { useCheckoutStore } from "@/lib/stores/Checkout/checkoutStore";
 import { useRouter } from "next/navigation";
+import { checkoutSchema } from "@/app/schemas/checkoutSchema";
+import toast from "react-hot-toast";
 
 function CheckoutPage() {
   const router = useRouter();
@@ -51,6 +53,21 @@ function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const result = checkoutSchema.safeParse({
+      full_Name: formData.full_Name,
+      email: formData.email,
+      phone: formData.phone,
+      city: formData.city,
+      postal_Code: formData.postal_Code,
+      shipping_Method: formData.shipping_Method,
+      payment_Method: formData.payment_Method,
+    });
+
+    if (!result.success) {
+      toast.error(result.error.issues[0].message);
+      return;
+    }
+
     setLoading(true);
     const order = await placeOrder(formData);
     setLoading(false);
@@ -58,7 +75,7 @@ function CheckoutPage() {
     if (order) {
       clearCart();
       resetForm();
-      router.push("/")
+      router.push("/");
     }
   };
 
