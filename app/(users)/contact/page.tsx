@@ -47,6 +47,7 @@ function ContactPage() {
 
     await postContact({ name, email, message });
     resetForm();
+    setLoading(false);
   };
 
   return (
@@ -76,7 +77,7 @@ function ContactPage() {
 
               <input
                 name="name"
-                value="name"
+                value={formData.name}
                 type="text"
                 placeholder="Name"
                 onChange={handleChange}
@@ -89,7 +90,7 @@ function ContactPage() {
 
               <input
                 name="email"
-                value="email"
+                value={formData.email}
                 type="email"
                 placeholder="you@example.com"
                 onChange={handleChange}
@@ -103,7 +104,7 @@ function ContactPage() {
 
             <textarea
               name="message"
-              value="message"
+              value={formData.message}
               rows={6}
               placeholder="Write your message..."
               onChange={handleChange}
