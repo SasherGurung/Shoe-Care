@@ -8,9 +8,9 @@ function Footer() {
     {
       title: "QUICK OVERVIEW",
       links: [
+        { name: "Home", href: "/" },
         { name: "Contact", href: "/contact" },
         { name: "About Us", href: "/about" },
-        { name: "Personal Service", href: "/about" },
       ],
     },
     {
