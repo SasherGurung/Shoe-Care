@@ -25,6 +25,7 @@ Built with modern frontend technologies including **Next.js, Tailwind CSS, Shadc
 - **TypeScript** - Type-safe JavaScript development
 - **Tailwind CSS** - Utility-first CSS framework
 - **Shadcn UI** - Accessible and customizable UI components
+- **Zod** - Schema validation for forms and data
 - **Zustand** - Lightweight global state management
 - **React Icons** - Popular icon library for React applications
 - **Lucide React** - Modern icon library used with Shadcn UI
