@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { lavishly } from "@/app/fonts";
 import toast from "react-hot-toast";
 import { useContactStore } from "@/lib/stores/Contact/contactStore";
+import { contactSchema } from "@/app/schemas/contactSchema";
 
 function ContactPage() {
   const { postContact } = useContactStore();
@@ -13,7 +14,7 @@ function ContactPage() {
     message: "",
   });
 
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const resetForm = () => {
     setFormData({
@@ -38,15 +39,22 @@ function ContactPage() {
 
     const { name, email, message } = formData;
 
-    if (!name || !email || !message) {
-      toast.error("Please fill all fields");
+    const result = contactSchema.safeParse({
+      name,
+      email,
+      message,
+    })
+
+    if (!result.success) {
+      toast.error(result.error.issues[0].message)
       return;
     }
 
-    setLoading(true);
+    setSubmitting(true);
 
     await postContact({ name, email, message });
     resetForm();
+    setSubmitting(false);
   };
 
   return (
@@ -76,7 +84,7 @@ function ContactPage() {
 
               <input
                 name="name"
-                value="name"
+                value={formData.name}
                 type="text"
                 placeholder="Name"
                 onChange={handleChange}
@@ -89,7 +97,7 @@ function ContactPage() {
 
               <input
                 name="email"
-                value="email"
+                value={formData.email}
                 type="email"
                 placeholder="you@example.com"
                 onChange={handleChange}
@@ -103,7 +111,7 @@ function ContactPage() {
 
             <textarea
               name="message"
-              value="message"
+              value={formData.message}
               rows={6}
               placeholder="Write your message..."
               onChange={handleChange}
@@ -114,10 +122,10 @@ function ContactPage() {
           <div className="flex justify-center">
             <button
               type="submit"
-              disabled={loading}
+              disabled={submitting}
               className="cursor-pointer bg-emerald-500 text-white px-8 py-3 rounded-sm font-medium hover:bg-emerald-600 active:scale-[0.98] transition-all duration-200 disabled:opacity-50"
             >
-              {loading ? "Sending..." : "Send Message"}
+              {submitting ? "Sending..." : "Send Message"}
             </button>
           </div>
         </form>

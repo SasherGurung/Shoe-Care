@@ -8,6 +8,8 @@ import useCartStore from "@/lib/stores/Cart/cartStore";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import { useCheckoutStore } from "@/lib/stores/Checkout/checkoutStore";
 import { useRouter } from "next/navigation";
+import { checkoutSchema } from "@/app/schemas/checkoutSchema";
+import toast from "react-hot-toast";
 
 function CheckoutPage() {
   const router = useRouter();
@@ -51,6 +53,21 @@ function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const result = checkoutSchema.safeParse({
+      full_Name: formData.full_Name,
+      email: formData.email,
+      phone: formData.phone,
+      city: formData.city,
+      postal_Code: formData.postal_Code,
+      shipping_Method: formData.shipping_Method,
+      payment_Method: formData.payment_Method,
+    });
+
+    if (!result.success) {
+      toast.error(result.error.issues[0].message);
+      return;
+    }
+
     setLoading(true);
     const order = await placeOrder(formData);
     setLoading(false);
@@ -58,7 +75,7 @@ function CheckoutPage() {
     if (order) {
       clearCart();
       resetForm();
-      router.push("/")
+      router.push("/");
     }
   };
 
@@ -143,14 +160,15 @@ function CheckoutPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="Phone Number"
-                    inputMode="numeric"
+                    maxLength={10}
+                    type="number"
                     className="w-full border rounded-lg p-2 outline-none mt-1 focus:ring-1 focus:ring-green-500"
                   />
                 </div>
                 <div className="space-y-3 flex justify-between">
                   <div>
                     <label htmlFor="city" className="font-medium">
-                      City
+                      City <span className="text-red-500">*</span>
                     </label>
                     <input
                       id="city"
@@ -164,7 +182,7 @@ function CheckoutPage() {
                   </div>
                   <div className="space-y-2 md:col-span-2">
                     <label htmlFor="zip" className="font-medium">
-                      ZIP Code
+                      ZIP Code <span className="text-red-500">*</span>
                     </label>
                     <input
                       id="zip"

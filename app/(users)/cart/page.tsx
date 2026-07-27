@@ -26,7 +26,7 @@ export default function Cart() {
   const shipping = cart.length > 0 ? 150 : 0;
 
   return (
-    <section className="flex flex-col lg:flex-row justify-between py-20 px-8 gap-10 max-w-7xl mx-auto">
+    <section className="flex flex-col lg:flex-row justify-between my-30 px-8 gap-10 max-w-7xl mx-auto min-h-screen">
       <div className="w-full lg:w-2/3">
         <div className="flex items-center gap-1 text-gray-500">
           <Link href="/" className="transition hover:text-black">
